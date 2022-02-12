@@ -4,10 +4,7 @@ import com.arronhuang.tiny.redis.enums.RespCommandTypeEnum;
 import com.arronhuang.tiny.redis.handler.common.CommandHandler;
 import com.arronhuang.tiny.redis.handler.common.HelloHandler;
 import com.arronhuang.tiny.redis.handler.common.PingHandler;
-import com.arronhuang.tiny.redis.handler.string.DecrHandler;
-import com.arronhuang.tiny.redis.handler.string.GetHandler;
-import com.arronhuang.tiny.redis.handler.string.IncrHandler;
-import com.arronhuang.tiny.redis.handler.string.SetHandler;
+import com.arronhuang.tiny.redis.handler.string.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,9 +22,13 @@ public class RequestHandlerRegistry {
 
         registryMap.put(SET, new SetHandler());
         registryMap.put(GET, new GetHandler());
+
         registryMap.put(INCR, new IncrHandler());
         registryMap.put(DECR, new DecrHandler());
-
+        registryMap.put(INCR_BY, new IncrByHandler());
+        registryMap.put(DECR_BY, new DecrByHandler());
+        registryMap.put(INCR_BY_FLOAT, new IncrByFloatHandler());
+        registryMap.put(APPEND, new AppendHandler());
 
     }
 

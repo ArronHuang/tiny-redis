@@ -1,17 +1,18 @@
 package com.arronhuang.tiny.redis.handler.string;
 
-import com.arronhuang.tiny.redis.handler.ICommandHandler;
 import com.arronhuang.tiny.redis.netty.RespResponse;
-import com.arronhuang.tiny.redis.storage.GlobalMap;
-import com.arronhuang.tiny.redis.storage.RedisString;
 
 import java.util.List;
 
-public class SetHandler implements ICommandHandler {
+public class SetHandler extends AbstractStringCommandHandler {
 
     @Override
     public RespResponse doHandle(List<String> args) {
-        GlobalMap.getInstance().put(args.get(0), new RedisString(args.get(1)));
+        String key = args.get(0);
+        String value = args.get(1);
+
+        set(key, value);
+
         return RespResponse.ok();
     }
 

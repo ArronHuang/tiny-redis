@@ -38,4 +38,11 @@ public class RespResponse {
         return response;
     }
 
+    public static RespResponse bulkString(String result) {
+        RespResponse response = new RespResponse();
+        response.setRespResponseTypeEnum(RespResponseTypeEnum.BULK_STRING);
+        response.addArg(result);
+        return response;
+    }
+
 }
