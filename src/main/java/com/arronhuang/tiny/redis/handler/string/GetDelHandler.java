@@ -6,14 +6,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DecrByHandler extends AbstractCalculateHandler {
+public class GetDelHandler extends AbstractStringCommandHandler {
 
     @Override
     public RespResponse doHandle(List<String> args) {
-        String key = args.get(0);
-        long offset = Long.valueOf(args.get(1)) * -1;
-
-        return RespResponse.number(incrementByLongOffset(key, offset));
+        return null;
     }
 
     @Override

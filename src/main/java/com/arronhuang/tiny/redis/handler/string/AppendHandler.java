@@ -1,10 +1,11 @@
-package com.arronhuang.tiny.redis.handler;
+package com.arronhuang.tiny.redis.handler.string;
 
-import com.arronhuang.tiny.redis.handler.string.AbstractStringCommandHandler;
 import com.arronhuang.tiny.redis.netty.RespResponse;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class AppendHandler extends AbstractStringCommandHandler {
 
     @Override

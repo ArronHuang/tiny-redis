@@ -1,39 +1,46 @@
 package com.arronhuang.tiny.redis.handler;
 
-import com.arronhuang.tiny.redis.enums.RespCommandTypeEnum;
-import com.arronhuang.tiny.redis.handler.common.CommandHandler;
-import com.arronhuang.tiny.redis.handler.common.HelloHandler;
-import com.arronhuang.tiny.redis.handler.common.PingHandler;
-import com.arronhuang.tiny.redis.handler.string.*;
+import cn.hutool.core.collection.CollUtil;
+import com.arronhuang.tiny.redis.enums.CommandNameEnum;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.arronhuang.tiny.redis.enums.RespCommandTypeEnum.*;
+@Component
+@Slf4j
+public class RequestHandlerRegistry implements ApplicationContextAware {
 
-public class RequestHandlerRegistry {
+    private static Map<CommandNameEnum, ICommandHandler> registryMap = new ConcurrentHashMap<>();
 
-    private static Map<RespCommandTypeEnum, ICommandHandler> registryMap = new ConcurrentHashMap<>();
-
-    static {
-        registryMap.put(PING, new PingHandler());
-        registryMap.put(HELLO, new HelloHandler());
-        registryMap.put(COMMAND, new CommandHandler());
-
-        registryMap.put(SET, new SetHandler());
-        registryMap.put(GET, new GetHandler());
-
-        registryMap.put(INCR, new IncrHandler());
-        registryMap.put(DECR, new DecrHandler());
-        registryMap.put(INCR_BY, new IncrByHandler());
-        registryMap.put(DECR_BY, new DecrByHandler());
-        registryMap.put(INCR_BY_FLOAT, new IncrByFloatHandler());
-        registryMap.put(APPEND, new AppendHandler());
-
+    public static ICommandHandler getHandler(CommandNameEnum commandType) {
+        return registryMap.get(commandType);
     }
 
-    public static ICommandHandler getHandler(RespCommandTypeEnum commandType) {
-        return registryMap.get(commandType);
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        // get all command handler beans
+        Collection<ICommandHandler> handlers = applicationContext.getBeansOfType(ICommandHandler.class).values();
+
+        if (CollUtil.isEmpty(handlers)) {
+            return;
+        }
+
+        // match commandNameEnum and register handlers
+        for (ICommandHandler handler : handlers) {
+            String commandName = handler.getClass().getSimpleName().replace("Handler", "");
+            CommandNameEnum commandNameEnum = CommandNameEnum.getTypeEnum(commandName);
+            if (commandNameEnum != null) {
+                RequestHandlerRegistry.registryMap.put(commandNameEnum, handler);
+            }
+        }
+
+        log.info("command handler mapping init finished! size = {}", RequestHandlerRegistry.registryMap.size());
     }
 
 }

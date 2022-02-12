@@ -3,9 +3,11 @@ package com.arronhuang.tiny.redis.handler.common;
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
 import com.arronhuang.tiny.redis.handler.ICommandHandler;
 import com.arronhuang.tiny.redis.netty.RespResponse;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CommandHandler implements ICommandHandler {
 
     @Override

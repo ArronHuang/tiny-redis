@@ -1,6 +1,6 @@
 package com.arronhuang.tiny.redis.netty;
 
-import com.arronhuang.tiny.redis.enums.RespCommandTypeEnum;
+import com.arronhuang.tiny.redis.enums.CommandNameEnum;
 import com.arronhuang.tiny.redis.handler.ICommandHandler;
 import com.arronhuang.tiny.redis.handler.RequestHandlerRegistry;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +15,7 @@ public class RespRequestProcessor implements Runnable {
 
     @Override
     public void run() {
-        RespCommandTypeEnum commandType = request.getCommandType();
+        CommandNameEnum commandType = request.getCommandType();
         ICommandHandler handler = RequestHandlerRegistry.getHandler(commandType);
         RespResponse response;
         try {

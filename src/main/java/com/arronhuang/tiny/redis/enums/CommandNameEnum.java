@@ -1,12 +1,13 @@
 package com.arronhuang.tiny.redis.enums;
 
-import com.arronhuang.tiny.redis.util.LogUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @AllArgsConstructor
-public enum RespCommandTypeEnum {
+@Slf4j
+public enum CommandNameEnum {
 
     // common commands
     HELLO,
@@ -14,14 +15,15 @@ public enum RespCommandTypeEnum {
     PING,
 
     // commands for string
-    SET,
-    GET,
-    INCR,
+    APPEND,
     DECR,
-    INCR_BY,
     DECR_BY,
-    INCR_BY_FLOAT,
-    APPEND
+    GET,
+    GET_DEL,
+    SET,
+    INCR,
+    INCR_BY,
+    INCR_BY_FLOAT
     //    SET_RANGE,
     //    GET_RANGE,
     //    SET_BIT,
@@ -37,13 +39,13 @@ public enum RespCommandTypeEnum {
 
     ;
 
-    public static RespCommandTypeEnum getTypeEnum(String commandType) {
-        for (RespCommandTypeEnum typeEnum : values()) {
-            if (commandType.equals(typeEnum.toString().replace("_", ""))) {
+    public static CommandNameEnum getTypeEnum(String commandType) {
+        for (CommandNameEnum typeEnum : values()) {
+            if (commandType.equalsIgnoreCase(typeEnum.toString().replace("_", ""))) {
                 return typeEnum;
             }
         }
-        LogUtil.warn("no command type enum found, command type = {}", commandType);
+        log.warn("no command type enum found, command type = {}", commandType);
         return null;
     }
 
