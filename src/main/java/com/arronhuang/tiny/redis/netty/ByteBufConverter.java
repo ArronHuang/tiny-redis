@@ -1,7 +1,6 @@
 package com.arronhuang.tiny.redis.netty;
 
 import cn.hutool.core.collection.CollUtil;
-import com.arronhuang.tiny.redis.enums.CommandNameEnum;
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
 import com.arronhuang.tiny.redis.util.AssertUtil;
 import io.netty.buffer.ByteBuf;
@@ -49,13 +48,9 @@ public class ByteBufConverter {
         }
 
         // 9. assemble request
-        String command = commandList.get(0).toUpperCase();
-        CommandNameEnum commandType = CommandNameEnum.getTypeEnum(command);
-        if (commandType == null) {
-            throw new IllegalArgumentException("ERR no such command: " + command);
-        }
+        String commandName = commandList.get(0).toUpperCase();
 
-        request.setCommandType(commandType);
+        request.setCommandName(commandName);
         request.setArgs(commandList.subList(1, commandList.size()));
 
         return request;

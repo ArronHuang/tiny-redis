@@ -1,7 +1,6 @@
 package com.arronhuang.tiny.redis.handler;
 
 import cn.hutool.core.collection.CollUtil;
-import com.arronhuang.tiny.redis.enums.CommandNameEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -16,10 +15,10 @@ import java.util.Map;
 @Slf4j
 public class RequestHandlerRegistry implements ApplicationContextAware {
 
-    private static Map<CommandNameEnum, ICommandHandler> registryMap = new HashMap<>();
+    private static Map</* command name */String, ICommandHandler> registryMap = new HashMap<>();
 
-    public static ICommandHandler getHandler(CommandNameEnum commandType) {
-        return registryMap.get(commandType);
+    public static ICommandHandler getHandler(String commandName) {
+        return registryMap.get(commandName);
     }
 
     @Override
@@ -33,11 +32,9 @@ public class RequestHandlerRegistry implements ApplicationContextAware {
 
         // match commandNameEnum and register handlers
         for (ICommandHandler handler : handlers) {
-            String commandName = handler.getClass().getSimpleName().replace("Handler", "");
-            CommandNameEnum commandNameEnum = CommandNameEnum.getTypeEnum(commandName);
-            if (commandNameEnum != null) {
-                RequestHandlerRegistry.registryMap.put(commandNameEnum, handler);
-            }
+            String commandName = handler.getClass().getSimpleName().replace("Handler", "").toUpperCase();
+            RequestHandlerRegistry.registryMap.put(commandName, handler);
+            log.info("command handler mapping created, commandName = {}, handler = {}", commandName, handler);
         }
 
         log.info("command handler mapping init finished! size = {}", RequestHandlerRegistry.registryMap.size());
