@@ -9,14 +9,14 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
 public class RequestHandlerRegistry implements ApplicationContextAware {
 
-    private static Map<CommandNameEnum, ICommandHandler> registryMap = new ConcurrentHashMap<>();
+    private static Map<CommandNameEnum, ICommandHandler> registryMap = new HashMap<>();
 
     public static ICommandHandler getHandler(CommandNameEnum commandType) {
         return registryMap.get(commandType);

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetDelHandler extends AbstractStringCommandHandler {
+public class GetExHandler extends AbstractStringCommandHandler {
 
     @Override
     public RespResponse doHandle(List<String> args) {

@@ -20,10 +20,14 @@ public enum CommandNameEnum {
     DECR_BY,
     GET,
     GET_DEL,
-    SET,
+    GET_EX,
+    GET_RANGE,
+    GET_SET,
     INCR,
     INCR_BY,
-    INCR_BY_FLOAT
+    INCR_BY_FLOAT,
+    LCS,
+    SET
     //    SET_RANGE,
     //    GET_RANGE,
     //    SET_BIT,

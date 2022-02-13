@@ -6,12 +6,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetDelHandler extends AbstractStringCommandHandler {
+public class GetSetHandler extends AbstractStringCommandHandler {
 
     @Override
     public RespResponse doHandle(List<String> args) {
-        // TODO since redis 6
-        throw new UnsupportedOperationException("this operation will be supported in version 6.0");
+        String key = args.get(0);
+        String oldValue = getValue(key, false);
+        String newValue = args.get(1);
+
+        set(key, newValue);
+
+        return RespResponse.bulkString(oldValue);
     }
 
     @Override
