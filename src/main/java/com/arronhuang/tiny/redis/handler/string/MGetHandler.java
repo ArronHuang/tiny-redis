@@ -7,17 +7,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetHandler extends AbstractStringCommandHandler {
+public class MGetHandler extends AbstractStringCommandHandler {
 
     @Override
     public RespResponse doHandle(List<String> args) {
-        String key = args.get(0);
-
         RespResponse response = new RespResponse();
-        response.setRespResponseTypeEnum(RespResponseTypeEnum.BULK_STRING);
+        response.setRespResponseTypeEnum(RespResponseTypeEnum.ARRAY);
 
-        String value = getValue(key, false);
-        response.addArg(value);
+        for (String key : args) {
+            String value = getValue(key, false);
+            response.addArg(value);
+        }
 
         return response;
     }

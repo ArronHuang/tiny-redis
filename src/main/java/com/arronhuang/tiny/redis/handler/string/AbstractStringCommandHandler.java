@@ -29,4 +29,8 @@ public abstract class AbstractStringCommandHandler implements ICommandHandler {
         GlobalMap.getInstance().put(key, new RedisString(value));
     }
 
+    public boolean setIfNotExists(String key, Object value) {
+        return GlobalMap.getInstance().putIfAbsent(key, new RedisString(value)) == null;
+    }
+
 }

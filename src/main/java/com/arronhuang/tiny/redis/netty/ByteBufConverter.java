@@ -72,7 +72,7 @@ public class ByteBufConverter {
                         .append(CRLF);
                 break;
             case BULK_STRING:
-                if (CollUtil.isNotEmpty(args)) {
+                if (CollUtil.isNotEmpty(args) || args.get(0) == null) {
                     String bulkString = String.valueOf(args.get(0));
                     sb.append(bulkString.length())
                             .append(CRLF)
@@ -89,12 +89,18 @@ public class ByteBufConverter {
                         .append(CRLF);
                 for (int i = 0; i < arrayLength; i++) {
                     Object arrayItem = args.get(i);
-                    String str = String.valueOf(arrayItem);
-                    sb.append(RespResponseTypeEnum.BULK_STRING.getCode())
-                            .append(str.length())
-                            .append(CRLF)
-                            .append(str)
-                            .append(CRLF);
+                    if (arrayItem == null) {
+                        sb.append(RespResponseTypeEnum.BULK_STRING.getCode())
+                                .append(-1)
+                                .append(CRLF);
+                    } else {
+                        String str = String.valueOf(arrayItem);
+                        sb.append(RespResponseTypeEnum.BULK_STRING.getCode())
+                                .append(str.length())
+                                .append(CRLF)
+                                .append(str)
+                                .append(CRLF);
+                    }
                 }
         }
 
