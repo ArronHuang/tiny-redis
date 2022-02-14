@@ -10,6 +10,10 @@ public abstract class AbstractStringCommandHandler implements ICommandHandler {
     public RedisString get(String key) {
         RedisObject redisObject = GlobalMap.getInstance().get(key);
 
+        if (redisObject == null) {
+            return null;
+        }
+
         if (redisObject.isExpire()) {
             GlobalMap.getInstance().remove(key);
             return null;

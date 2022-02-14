@@ -11,6 +11,10 @@ public class RedisObject {
     protected Long expireTime;
 
     public boolean isExpire() {
+        if (expireTime == null) {
+            return false;
+        }
+
         return DateUtil.compare(new Date(), new Date(expireTime)) < 0;
     }
 

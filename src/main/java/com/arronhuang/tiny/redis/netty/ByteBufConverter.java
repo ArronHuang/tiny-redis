@@ -72,7 +72,7 @@ public class ByteBufConverter {
                         .append(CRLF);
                 break;
             case BULK_STRING:
-                if (CollUtil.isNotEmpty(args) || args.get(0) == null) {
+                if (CollUtil.isNotEmpty(args) || args.get(0) != null) {
                     String bulkString = String.valueOf(args.get(0));
                     sb.append(bulkString.length())
                             .append(CRLF)
