@@ -18,10 +18,16 @@ public final class AssertUtil {
         Assert.isTrue(args.size() == exceptSize, "ERR wrong number of arguments for this command");
     }
 
-    public static void isInteger(String str) {
+    public static void sizeIsEvenNumber(List args) {
+        Assert.isTrue(args.size() % 2 == 0, "ERR wrong number of arguments for this command");
+    }
+
+    public static void isInteger(String... strings) {
         boolean result = true;
         try {
-            Long.valueOf(str);
+            for (String string : strings) {
+                Long.valueOf(string);
+            }
         } catch (NumberFormatException e) {
             result = false;
         }

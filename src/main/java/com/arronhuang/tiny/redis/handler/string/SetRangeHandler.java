@@ -1,6 +1,7 @@
 package com.arronhuang.tiny.redis.handler.string;
 
 import com.arronhuang.tiny.redis.netty.RespResponse;
+import com.arronhuang.tiny.redis.util.AssertUtil;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class SetRangeHandler extends AbstractStringCommandHandler {
 
     @Override
     public void checkArgs(List<String> args) {
-
+        AssertUtil.isInteger(args.get(1));
     }
 
 }
