@@ -24,7 +24,7 @@ public class TinyRedisServer {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
-                                .addLast(new RespRequestHandler())
+                                .addLast(new TinyRedisServerHandler())
                         ;
                     }
                 });

@@ -14,8 +14,14 @@ public class RequestHandlerRegistry {
 
     private static Map</* command name */String, ICommandHandler> registryMap = new HashMap<>();
 
+    private static Map</* command name */String, CommandEnum> commandEnumMap = new HashMap<>();
+
     public static ICommandHandler getHandler(String commandName) {
         return registryMap.get(commandName);
+    }
+
+    public static CommandEnum getCommandEnum(String commandName) {
+        return commandEnumMap.get(commandName);
     }
 
     static {
@@ -32,6 +38,7 @@ public class RequestHandlerRegistry {
                     try {
                         ICommandHandler commandHandler = (ICommandHandler) clazz.newInstance();
                         RequestHandlerRegistry.registryMap.put(commandName, commandHandler);
+                        RequestHandlerRegistry.commandEnumMap.put(commandName, commandEnum);
                         log.info("command handler mapping created, commandName = {}, handler = {}", commandName, commandHandler);
                     } catch (Exception e) {
                         log.warn("command handler create failed, commandName = {}", commandName, e);

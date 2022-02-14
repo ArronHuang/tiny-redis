@@ -1,8 +1,10 @@
 package com.arronhuang.tiny.redis.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum CommandEnum {
 
     // commands for string
