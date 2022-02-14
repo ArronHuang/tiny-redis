@@ -9,6 +9,12 @@ public abstract class AbstractStringCommandHandler implements ICommandHandler {
 
     public RedisString get(String key) {
         RedisObject redisObject = GlobalMap.getInstance().get(key);
+
+        if (redisObject.isExpire()) {
+            GlobalMap.getInstance().remove(key);
+            return null;
+        }
+
         if (redisObject instanceof RedisString) {
             return ((RedisString) redisObject);
         }
@@ -27,6 +33,10 @@ public abstract class AbstractStringCommandHandler implements ICommandHandler {
 
     public void set(String key, Object value) {
         GlobalMap.getInstance().put(key, new RedisString(value));
+    }
+
+    public void set(String key, Object value, int ttl) {
+        GlobalMap.getInstance().put(key, new RedisString(value, ttl));
     }
 
     public boolean setIfNotExists(String key, Object value) {

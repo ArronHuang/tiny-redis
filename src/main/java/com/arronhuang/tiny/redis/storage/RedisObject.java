@@ -1,5 +1,17 @@
 package com.arronhuang.tiny.redis.storage;
 
-public interface RedisObject {
+import cn.hutool.core.date.DateUtil;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class RedisObject {
+
+    protected Long expireTime;
+
+    public boolean isExpire() {
+        return DateUtil.compare(new Date(), new Date(expireTime)) < 0;
+    }
 
 }
