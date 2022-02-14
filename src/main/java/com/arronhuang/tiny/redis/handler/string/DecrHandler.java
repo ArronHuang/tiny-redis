@@ -1,11 +1,9 @@
 package com.arronhuang.tiny.redis.handler.string;
 
 import com.arronhuang.tiny.redis.netty.RespResponse;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class DecrHandler extends AbstractCalculateHandler {
 
     @Override

@@ -4,11 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
 import com.arronhuang.tiny.redis.handler.ICommandHandler;
 import com.arronhuang.tiny.redis.netty.RespResponse;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class PingHandler implements ICommandHandler {
 
     @Override

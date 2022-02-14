@@ -1,11 +1,9 @@
 package com.arronhuang.tiny.redis.handler.string;
 
 import com.arronhuang.tiny.redis.netty.RespResponse;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class SetHandler extends AbstractStringCommandHandler {
 
     @Override
@@ -13,6 +11,7 @@ public class SetHandler extends AbstractStringCommandHandler {
         String key = args.get(0);
         String value = args.get(1);
 
+        // TODO 带参数部分待处理
         set(key, value);
 
         return RespResponse.ok();

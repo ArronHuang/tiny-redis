@@ -1,19 +1,16 @@
 package com.arronhuang.tiny.redis.handler;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ClassUtil;
+import com.arronhuang.tiny.redis.enums.CommandEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Component
 @Slf4j
-public class RequestHandlerRegistry implements ApplicationContextAware {
+public class RequestHandlerRegistry {
 
     private static Map</* command name */String, ICommandHandler> registryMap = new HashMap<>();
 
@@ -21,20 +18,26 @@ public class RequestHandlerRegistry implements ApplicationContextAware {
         return registryMap.get(commandName);
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        // get all command handler beans
-        Collection<ICommandHandler> handlers = applicationContext.getBeansOfType(ICommandHandler.class).values();
+    static {
+        // get all command handlers
+        Set<Class<?>> classSet = ClassUtil.scanPackage("com.arronhuang.tiny.redis.handler")
+                .stream()
+                .filter(clazz -> clazz.getSimpleName().endsWith("Handler"))
+                .collect(Collectors.toSet());
 
-        if (CollUtil.isEmpty(handlers)) {
-            return;
-        }
-
-        // match commandNameEnum and register handlers
-        for (ICommandHandler handler : handlers) {
-            String commandName = handler.getClass().getSimpleName().replace("Handler", "").toUpperCase();
-            RequestHandlerRegistry.registryMap.put(commandName, handler);
-            log.info("command handler mapping created, commandName = {}, handler = {}", commandName, handler);
+        for (CommandEnum commandEnum : CommandEnum.values()) {
+            String commandName = commandEnum.toString();
+            for (Class<?> clazz : classSet) {
+                if ((commandEnum.toString() + "Handler").equalsIgnoreCase(clazz.getSimpleName())) {
+                    try {
+                        ICommandHandler commandHandler = (ICommandHandler) clazz.newInstance();
+                        RequestHandlerRegistry.registryMap.put(commandName, commandHandler);
+                        log.info("command handler mapping created, commandName = {}, handler = {}", commandName, commandHandler);
+                    } catch (Exception e) {
+                        log.warn("command handler create failed, commandName = {}", commandName, e);
+                    }
+                }
+            }
         }
 
         log.info("command handler mapping init finished! size = {}", RequestHandlerRegistry.registryMap.size());
