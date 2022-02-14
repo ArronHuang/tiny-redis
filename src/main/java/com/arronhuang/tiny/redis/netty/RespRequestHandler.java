@@ -16,10 +16,10 @@ public class RespRequestHandler extends ByteToMessageDecoder {
         RespRequest request = null;
 
         try {
-            request = ByteBufConverter.byteBufToRespRequest(byteBuf);
+            request = RespRequest.fromByteBuf(byteBuf);
         } catch (IllegalArgumentException e) {
             RespResponse response = RespResponse.error(e.getMessage());
-            ctx.writeAndFlush(ByteBufConverter.respResponseToByteBuf(response));
+            ctx.writeAndFlush(response.toByteBuf());
             return;
         } catch (Exception e) {
             log.error("unknown exception: ", e);

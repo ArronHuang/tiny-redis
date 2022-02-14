@@ -22,7 +22,7 @@ public class RespRequestProcessor implements Runnable {
         } catch (Exception e) {
             response = RespResponse.error(e.getMessage());
         }
-        ctx.writeAndFlush(ByteBufConverter.respResponseToByteBuf(response));
+        ctx.writeAndFlush(response.toByteBuf());
     }
 
 }
