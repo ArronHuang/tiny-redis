@@ -1,13 +1,14 @@
 package com.arronhuang.tiny.redis.util;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjectUtil;
 
 import java.util.List;
 
 public final class AssertUtil {
 
-    public static void equals(byte actual, byte excepted) {
-        Assert.isTrue(actual == excepted, "[Assertion failed] - excepted " + excepted + ", but " + actual);
+    public static void equals(Object actual, Object excepted) {
+        Assert.isTrue(ObjectUtil.equals(actual, excepted), "[Assertion failed] - excepted " + excepted + ", but " + actual);
     }
 
     public static void sizeEquals(List args, int exceptSize) {

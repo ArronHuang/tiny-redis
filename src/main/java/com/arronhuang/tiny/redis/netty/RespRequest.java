@@ -17,7 +17,7 @@ public class RespRequest {
 
     private String commandName;
 
-    private List<String> args;
+    private List<String> args = new ArrayList<>();
 
     public static RespRequest fromByteBuf(ByteBuf byteBuf) {
         RespRequest request = new RespRequest();
