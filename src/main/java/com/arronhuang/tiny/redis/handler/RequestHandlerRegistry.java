@@ -21,7 +21,7 @@ public class RequestHandlerRegistry {
     }
 
     public static CommandEnum getCommandEnum(String commandName) {
-        return commandEnumMap.get(commandName);
+        return commandEnumMap.get(commandName.toUpperCase());
     }
 
     static {
@@ -37,8 +37,8 @@ public class RequestHandlerRegistry {
                 if ((commandEnum.toString() + "Handler").equalsIgnoreCase(clazz.getSimpleName())) {
                     try {
                         ICommandHandler commandHandler = (ICommandHandler) clazz.newInstance();
-                        RequestHandlerRegistry.registryMap.put(commandName, commandHandler);
-                        RequestHandlerRegistry.commandEnumMap.put(commandName, commandEnum);
+                        RequestHandlerRegistry.registryMap.put(commandName.toUpperCase(), commandHandler);
+                        RequestHandlerRegistry.commandEnumMap.put(commandName.toUpperCase(), commandEnum);
                         log.info("command handler mapping created, commandName = {}, handler = {}", commandName, commandHandler);
                     } catch (Exception e) {
                         log.warn("command handler create failed, commandName = {}", commandName, e);

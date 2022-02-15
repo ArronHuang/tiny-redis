@@ -16,7 +16,7 @@ public final class AssertUtil {
     }
 
     public static void sizeMoreThan(List args, int exceptSize) {
-        Assert.isTrue(args.size() == exceptSize, "ERR wrong number of arguments for this command");
+        Assert.isTrue(args.size() >= exceptSize, "ERR wrong number of arguments for this command");
     }
 
     public static void sizeIsEvenNumber(List args) {
