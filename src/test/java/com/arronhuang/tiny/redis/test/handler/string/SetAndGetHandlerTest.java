@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -25,6 +26,14 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     private ICommandHandler getHandler = new GetHandler();
 
     private ICommandHandler mGetHandler = new MGetHandler();
+
+    private ICommandHandler setRangeHandler = new SetRangeHandler();
+
+    private ICommandHandler subStrHandler = new SubStrHandler();
+
+    private ICommandHandler getRangeHandler = new GetRangeHandler();
+
+    private ICommandHandler strLenHandler = new StrLenHandler();
 
     @Test
     public void testSet() {
@@ -126,6 +135,99 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
         RespResponse response = mGetHandler.handle(request);
         JunitAssertUtil.array(values, response);
+    }
+
+    @Test
+    public void testSetRange1() {
+        put("key1", "hello world");
+        RespRequest request = new RespRequest();
+        request.setCommandName("setrange");
+        request.setArgs(Arrays.asList("key1", "6", "redis"));
+        RespResponse response = setRangeHandler.handle(request);
+        JunitAssertUtil.number(11, response);
+        assertKeyValueExists("key1", "hello redis");
+    }
+
+    @Test
+    public void testSetRange2() {
+        RespRequest request = new RespRequest();
+        request.setCommandName("setrange");
+        request.setArgs(Arrays.asList("key2", "6", "redis"));
+        RespResponse response = setRangeHandler.handle(request);
+        JunitAssertUtil.number(11, response);
+        assertKeyValueExists("key2", "\u0000\u0000\u0000\u0000\u0000\u0000redis");
+    }
+
+    @Test
+    public void testSetRange3() {
+        RespRequest request = new RespRequest();
+        put("key3", "hello redis");
+        request.setCommandName("setrange");
+        request.setArgs(Arrays.asList("key3", "6", "j"));
+        RespResponse response = setRangeHandler.handle(request);
+        JunitAssertUtil.number(11, response);
+        assertKeyValueExists("key3", "hello jedis");
+    }
+
+    @Test
+    public void testSubStr() {
+        put("mykey", "this is a string");
+        RespRequest request = new RespRequest();
+        request.setCommandName("substr");
+
+        request.setArgs(Arrays.asList("mykey", "0", "3"));
+        RespResponse response = subStrHandler.handle(request);
+        JunitAssertUtil.bulkString("this", response);
+
+        request.setArgs(Arrays.asList("mykey", "-3", "-1"));
+        response = subStrHandler.handle(request);
+        JunitAssertUtil.bulkString("ing", response);
+
+        request.setArgs(Arrays.asList("mykey", "0", "-1"));
+        response = subStrHandler.handle(request);
+        JunitAssertUtil.bulkString("this is a string", response);
+
+        request.setArgs(Arrays.asList("mykey", "10", "100"));
+        response = subStrHandler.handle(request);
+        JunitAssertUtil.bulkString("string", response);
+    }
+
+    @Test
+    public void testGetRange() {
+        put("mykey", "this is a string");
+        RespRequest request = new RespRequest();
+        request.setCommandName("getrange");
+
+        request.setArgs(Arrays.asList("mykey", "0", "3"));
+        RespResponse response = getRangeHandler.handle(request);
+        JunitAssertUtil.bulkString("this", response);
+
+        request.setArgs(Arrays.asList("mykey", "-3", "-1"));
+        response = getRangeHandler.handle(request);
+        JunitAssertUtil.bulkString("ing", response);
+
+        request.setArgs(Arrays.asList("mykey", "0", "-1"));
+        response = getRangeHandler.handle(request);
+        JunitAssertUtil.bulkString("this is a string", response);
+
+        request.setArgs(Arrays.asList("mykey", "10", "100"));
+        response = getRangeHandler.handle(request);
+        JunitAssertUtil.bulkString("string", response);
+    }
+
+    @Test
+    public void testStrLen() {
+        put("mykey", "hello world");
+        RespRequest request = new RespRequest();
+        request.setCommandName("strlen");
+
+        request.setArgs(Arrays.asList("mykey"));
+        RespResponse response = strLenHandler.handle(request);
+        JunitAssertUtil.number(11, response);
+
+        request.setArgs(Arrays.asList("nonexisting"));
+        response = strLenHandler.handle(request);
+        JunitAssertUtil.number(0, response);
     }
 
     private void put(String key, String value) {

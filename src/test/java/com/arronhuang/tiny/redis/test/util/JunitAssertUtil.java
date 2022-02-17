@@ -37,4 +37,9 @@ public class JunitAssertUtil {
             Assertions.assertEquals(expected.get(i), response.getArgs().get(i));
         }
     }
+
+    public static void number(long expected, RespResponse response) {
+        Assertions.assertTrue(response.getRespResponseTypeEnum() == RespResponseTypeEnum.NUMBER);
+        Assertions.assertEquals(response.getArgs().get(0), expected);
+    }
 }
