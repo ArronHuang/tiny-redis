@@ -16,12 +16,7 @@ public class RespRequestProcessor implements Runnable {
     public void run() {
         String commandName = request.getCommandName();
         ICommandHandler handler = RequestHandlerRegistry.getHandler(commandName);
-        RespResponse response;
-        try {
-            response = handler.handle(request);
-        } catch (Exception e) {
-            response = RespResponse.error(e.getMessage());
-        }
+        RespResponse response = handler.handle(request);
         ctx.writeAndFlush(response.toByteBuf());
     }
 

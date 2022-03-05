@@ -1,6 +1,7 @@
 package com.arronhuang.tiny.redis.handler;
 
 import com.arronhuang.tiny.redis.enums.CommandEnum;
+import com.arronhuang.tiny.redis.enums.GlobalConstant;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.util.AssertUtil;
@@ -26,15 +27,16 @@ public interface ICommandHandler {
     default RespResponse handle(RespRequest request) {
         String commandName = request.getCommandName();
         List<String> args = request.getArgs();
+        RespResponse response;
 
         try {
             checkArgQty(commandName, args);
             checkArgs(args);
+            response = doHandle(args);
         } catch (Exception e) {
-            // TODO 封装错误信息
+            response = RespResponse.error(GlobalConstant.ERROR_PREFIX + e.getMessage());
         }
 
-        RespResponse response = doHandle(args);
         return response;
     }
 

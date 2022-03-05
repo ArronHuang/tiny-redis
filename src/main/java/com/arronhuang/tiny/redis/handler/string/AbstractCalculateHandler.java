@@ -1,5 +1,7 @@
 package com.arronhuang.tiny.redis.handler.string;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
+import com.arronhuang.tiny.redis.handler.RequestProcessException;
 import com.arronhuang.tiny.redis.storage.RedisString;
 
 import java.math.BigDecimal;
@@ -14,7 +16,7 @@ public abstract class AbstractCalculateHandler extends AbstractStringCommandHand
         try {
             return Long.valueOf(redisString.getValue());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERR value is not an integer or out of range");
+            throw new RequestProcessException(ErrorCodeEnum.VALUE_IS_NOT_AN_INTEGER_OR_OUT_OF_RANGE);
         }
     }
 
@@ -26,7 +28,7 @@ public abstract class AbstractCalculateHandler extends AbstractStringCommandHand
         try {
             return new BigDecimal(redisString.getValue());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERR value is not a valid float");
+            throw new RequestProcessException(ErrorCodeEnum.VALUE_IS_NOT_A_VALID_FLOAT);
         }
     }
 
