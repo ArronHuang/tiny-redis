@@ -7,14 +7,12 @@ import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.storage.GlobalMap;
 import com.arronhuang.tiny.redis.storage.RedisString;
 import com.arronhuang.tiny.redis.test.util.JunitAssertUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Slf4j
 public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
     private ICommandHandler setHandler = new SetHandler();
@@ -34,6 +32,8 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     private ICommandHandler getRangeHandler = new GetRangeHandler();
 
     private ICommandHandler strLenHandler = new StrLenHandler();
+
+    private ICommandHandler appendHandler = new AppendHandler();
 
     @Test
     public void testSet() {
@@ -228,6 +228,22 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
         request.setArgs(Arrays.asList("nonexisting"));
         response = strLenHandler.handle(request);
         JunitAssertUtil.number(0, response);
+    }
+
+    @Test
+    public void testAppend() {
+        RespRequest request = new RespRequest();
+        request.setCommandName("append");
+
+        request.setArgs(Arrays.asList("mykey", "Hello"));
+        RespResponse response = appendHandler.handle(request);
+        JunitAssertUtil.number(5, response);
+
+        request.setArgs(Arrays.asList("mykey", " World"));
+        response = appendHandler.handle(request);
+        JunitAssertUtil.number(11, response);
+
+        assertKeyValueExists("mykey", "Hello World");
     }
 
     private void put(String key, String value) {
