@@ -1,5 +1,7 @@
 package com.arronhuang.tiny.redis.test.util;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
+import com.arronhuang.tiny.redis.enums.GlobalConstant;
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import org.junit.jupiter.api.Assertions;
@@ -42,4 +44,10 @@ public class JunitAssertUtil {
         Assertions.assertTrue(response.getRespResponseTypeEnum() == RespResponseTypeEnum.NUMBER);
         Assertions.assertEquals(response.getArgs().get(0), expected);
     }
+
+    public static void error(ErrorCodeEnum errorCodeEnum, RespResponse response) {
+        Assertions.assertTrue(response.getRespResponseTypeEnum() == RespResponseTypeEnum.ERROR);
+        Assertions.assertEquals(response.getArgs().get(0), GlobalConstant.ERROR_PREFIX + errorCodeEnum.getMsg());
+    }
+
 }

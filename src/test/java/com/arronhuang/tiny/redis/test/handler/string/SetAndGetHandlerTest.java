@@ -4,8 +4,6 @@ import com.arronhuang.tiny.redis.handler.ICommandHandler;
 import com.arronhuang.tiny.redis.handler.string.*;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
-import com.arronhuang.tiny.redis.storage.GlobalMap;
-import com.arronhuang.tiny.redis.storage.RedisString;
 import com.arronhuang.tiny.redis.test.util.JunitAssertUtil;
 import org.junit.jupiter.api.Test;
 
@@ -244,10 +242,6 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
         JunitAssertUtil.number(11, response);
 
         assertKeyValueExists("mykey", "Hello World");
-    }
-
-    private void put(String key, String value) {
-        GlobalMap.getInstance().put(key, new RedisString(value));
     }
 
 }

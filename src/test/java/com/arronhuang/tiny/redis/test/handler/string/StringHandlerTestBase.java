@@ -24,4 +24,8 @@ public class StringHandlerTestBase extends TestBase {
         JunitAssertUtil.isNull(redisObject);
     }
 
+    protected void put(String key, String value) {
+        GlobalMap.getInstance().put(key, new RedisString(value));
+    }
+
 }
