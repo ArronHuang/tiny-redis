@@ -1,6 +1,7 @@
 package com.arronhuang.tiny.redis.netty;
 
 import cn.hutool.core.collection.CollUtil;
+import com.arronhuang.tiny.redis.enums.GlobalConstant;
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -25,7 +26,7 @@ public class RespResponse {
     public static RespResponse ok() {
         RespResponse response = new RespResponse();
         response.setRespResponseTypeEnum(RespResponseTypeEnum.SIMPLE_STRING);
-        response.addArg("OK");
+        response.addArg(GlobalConstant.OK);
         return response;
     }
 

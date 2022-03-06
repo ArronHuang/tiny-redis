@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RequestHandlerRegistry {
 
-    private static Map</* command name */String, ICommandHandler> registryMap = new HashMap<>();
+    private static Map</* command name */String, AbstractCommandHandler> registryMap = new HashMap<>();
 
     private static Map</* command name */String, CommandEnum> commandEnumMap = new HashMap<>();
 
-    public static ICommandHandler getHandler(String commandName) {
+    public static AbstractCommandHandler getHandler(String commandName) {
         return registryMap.get(commandName);
     }
 
@@ -36,7 +36,7 @@ public class RequestHandlerRegistry {
             for (Class<?> clazz : classSet) {
                 if ((commandEnum.toString() + "Handler").equalsIgnoreCase(clazz.getSimpleName())) {
                     try {
-                        ICommandHandler commandHandler = (ICommandHandler) clazz.newInstance();
+                        AbstractCommandHandler commandHandler = (AbstractCommandHandler) clazz.newInstance();
                         RequestHandlerRegistry.registryMap.put(commandName.toUpperCase(), commandHandler);
                         RequestHandlerRegistry.commandEnumMap.put(commandName.toUpperCase(), commandEnum);
                         log.info("command handler mapping created, commandName = {}, handler = {}", commandName, commandHandler);

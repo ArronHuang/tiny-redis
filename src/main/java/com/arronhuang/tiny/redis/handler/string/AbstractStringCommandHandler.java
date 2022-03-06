@@ -1,27 +1,19 @@
 package com.arronhuang.tiny.redis.handler.string;
 
-import com.arronhuang.tiny.redis.handler.ICommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
 import com.arronhuang.tiny.redis.storage.GlobalMap;
 import com.arronhuang.tiny.redis.storage.RedisObject;
 import com.arronhuang.tiny.redis.storage.RedisString;
 
-public abstract class AbstractStringCommandHandler implements ICommandHandler {
+public abstract class AbstractStringCommandHandler extends AbstractCommandHandler {
 
     public RedisString get(String key) {
         RedisObject redisObject = GlobalMap.getInstance().get(key);
 
-        if (redisObject == null) {
-            return null;
-        }
-
-        if (redisObject.isExpire()) {
-            GlobalMap.getInstance().remove(key);
-            return null;
-        }
-
         if (redisObject instanceof RedisString) {
             return ((RedisString) redisObject);
         }
+
         return null;
     }
 

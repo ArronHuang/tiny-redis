@@ -8,13 +8,13 @@ import com.arronhuang.tiny.redis.util.AssertUtil;
 
 import java.util.List;
 
-public interface ICommandHandler {
+public abstract class AbstractCommandHandler {
 
-    RespResponse doHandle(List<String> args);
+    public abstract RespResponse doHandle(List<String> args);
 
-    void checkArgs(List<String> args);
+    public abstract void checkArgs(List<String> args);
 
-    default void checkArgQty(String commandName, List<String> args) {
+    protected void checkArgQty(String commandName, List<String> args) {
         CommandEnum commandEnum = RequestHandlerRegistry.getCommandEnum(commandName);
         Integer argQty = commandEnum.getArgQty();
         if (argQty == null) {
@@ -26,7 +26,7 @@ public interface ICommandHandler {
         }
     }
 
-    default RespResponse handle(RespRequest request) {
+    public RespResponse handle(RespRequest request) {
         String commandName = request.getCommandName();
         List<String> args = request.getArgs();
         RespResponse response;
