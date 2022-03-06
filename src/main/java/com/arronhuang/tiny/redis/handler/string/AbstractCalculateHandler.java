@@ -52,7 +52,7 @@ public abstract class AbstractCalculateHandler extends AbstractStringCommandHand
             oldValue = BigDecimal.ZERO;
         }
 
-        String newValue = oldValue.add(new BigDecimal(offset)).toPlainString();
+        String newValue = oldValue.add(new BigDecimal(offset)).stripTrailingZeros().toPlainString();
         set(key, newValue);
 
         return newValue;

@@ -17,7 +17,7 @@ public class DecrByHandler extends AbstractCalculateHandler {
 
     @Override
     public void checkArgs(List<String> args) {
-        AssertUtil.isInteger(args.get(0), args.get(1));
+        AssertUtil.isInteger(args.get(1));
     }
 
 }
