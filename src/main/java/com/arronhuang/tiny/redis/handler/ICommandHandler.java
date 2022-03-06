@@ -16,8 +16,10 @@ public interface ICommandHandler {
 
     default void checkArgQty(String commandName, List<String> args) {
         CommandEnum commandEnum = RequestHandlerRegistry.getCommandEnum(commandName);
-        int argQty = commandEnum.getArgQty();
-        if (argQty >= 0) {
+        Integer argQty = commandEnum.getArgQty();
+        if (argQty == null) {
+            // do nothing
+        } else if (argQty >= 0) {
             AssertUtil.sizeEquals(args, argQty);
         } else {
             AssertUtil.sizeMoreThan(args, argQty * -1);

@@ -1,5 +1,7 @@
 package com.arronhuang.tiny.redis.handler.string;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
+import com.arronhuang.tiny.redis.handler.RequestProcessException;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 
 import java.util.List;
@@ -9,7 +11,7 @@ public class LcsHandler extends AbstractStringCommandHandler {
     @Override
     public RespResponse doHandle(List<String> args) {
         // TODO since redis 7
-        throw new UnsupportedOperationException("this operation will be supported in version 7.0");
+        throw new RequestProcessException(ErrorCodeEnum.OPERATION_IS_NOT_SUPPORTED_IN_THIS_VERSION);
     }
 
     @Override

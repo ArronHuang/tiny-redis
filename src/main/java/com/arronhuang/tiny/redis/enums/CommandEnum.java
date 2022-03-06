@@ -12,7 +12,7 @@ public enum CommandEnum {
     DECR(1),
     DECRBY(2),
     GET(1),
-    GETDEL(1),
+    GETDEL(null),
     GETEX(null),
     GETRANGE(3),
     GETSET(2),
