@@ -1,6 +1,9 @@
 package com.arronhuang.tiny.redis.storage;
 
+import cn.hutool.core.date.DateUtil;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class RedisString extends RedisObject {
@@ -13,7 +16,7 @@ public class RedisString extends RedisObject {
 
     public RedisString(Object value, int ttl) {
         this.value = String.valueOf(value);
-        this.expireTime = System.currentTimeMillis() + ttl;
+        this.expireTime = DateUtil.offsetMillisecond(new Date(), ttl).getTime();
     }
 
 }

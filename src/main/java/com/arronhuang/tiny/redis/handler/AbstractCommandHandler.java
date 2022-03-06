@@ -5,9 +5,11 @@ import com.arronhuang.tiny.redis.enums.GlobalConstant;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.util.AssertUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 public abstract class AbstractCommandHandler {
 
     public abstract RespResponse doHandle(List<String> args);
@@ -37,6 +39,7 @@ public abstract class AbstractCommandHandler {
             response = doHandle(args);
         } catch (Exception e) {
             response = RespResponse.error(GlobalConstant.ERROR_PREFIX + e.getMessage());
+            log.error("request process error: {}", request.toString(), e);
         }
 
         return response;

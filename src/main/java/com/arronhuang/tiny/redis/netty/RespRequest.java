@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static cn.hutool.core.text.StrPool.C_CR;
 import static cn.hutool.core.text.StrPool.C_LF;
@@ -84,4 +85,15 @@ public class RespRequest {
         AssertUtil.equals(b, (byte) expected);
     }
 
+    @Override
+    public String toString() {
+        StringJoiner stringJoiner = new StringJoiner(" ");
+
+        stringJoiner.add(commandName);
+        for (String arg : args) {
+            stringJoiner.add(arg);
+        }
+
+        return stringJoiner.toString();
+    }
 }

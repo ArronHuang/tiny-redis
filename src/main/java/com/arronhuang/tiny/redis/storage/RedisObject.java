@@ -15,7 +15,7 @@ public class RedisObject {
             return false;
         }
 
-        return DateUtil.compare(new Date(), new Date(expireTime)) < 0;
+        return DateUtil.compare(new Date(), new Date(expireTime)) > 0;
     }
 
 }
