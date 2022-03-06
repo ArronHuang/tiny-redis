@@ -40,15 +40,18 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
 
     @Test
     public void testIncr() {
-        put("mykey", "10");
         RespRequest request = new RespRequest();
         request.setCommandName("incr");
 
         request.setArgs(Arrays.asList("mykey"));
         RespResponse response = incrHandler.handle(request);
-        JunitAssertUtil.number(11, response);
-        assertKeyValueExists("mykey", "11");
+        JunitAssertUtil.number(1, response);
+        assertKeyValueExists("mykey", "1");
 
+        request.setArgs(Arrays.asList("mykey"));
+        response = incrHandler.handle(request);
+        JunitAssertUtil.number(2, response);
+        assertKeyValueExists("mykey", "2");
 
         put("mykey", "234293482390480948029348230948");
         response = incrHandler.handle(request);
@@ -81,12 +84,16 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
 
     @Test
     public void testIncrByFloat() {
-        put("mykey", "10.50");
         RespRequest request = new RespRequest();
         request.setCommandName("incrbyfloat");
 
-        request.setArgs(Arrays.asList("mykey", "0.1"));
+        request.setArgs(Arrays.asList("mykey", "10.50"));
         RespResponse response = incrByFloatHandler.handle(request);
+        JunitAssertUtil.bulkString("10.5", response);
+        assertKeyValueExists("mykey", "10.5");
+
+        request.setArgs(Arrays.asList("mykey", "0.1"));
+        response = incrByFloatHandler.handle(request);
         JunitAssertUtil.bulkString("10.6", response);
         assertKeyValueExists("mykey", "10.6");
 

@@ -36,6 +36,12 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
     private AbstractCommandHandler setExHandler = new SetExHandler();
 
+    private AbstractCommandHandler pSetExHandler = new PSetExHandler();
+
+    private AbstractCommandHandler mSetNxHandler = new MSetNxHandler();
+
+    private AbstractCommandHandler getSetHandler = new GetSetHandler();
+
     @Test
     public void testSet() {
         RespRequest request = new RespRequest();
@@ -259,6 +265,52 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
         TestUtil.sleep(1000);
         assertKeyNotExists("mykey");
+    }
+
+    @Test
+    public void testPSetEx() {
+        RespRequest request = new RespRequest();
+        request.setCommandName("psetex");
+
+        request.setArgs(Arrays.asList("mykey", "1000", "Hello"));
+        RespResponse response = pSetExHandler.handle(request);
+        JunitAssertUtil.ok(response);
+        assertKeyValueExists("mykey", "Hello");
+
+        TestUtil.sleep(1000);
+        assertKeyNotExists("mykey");
+    }
+
+    @Test
+    public void testMSetNx() {
+        RespRequest request = new RespRequest();
+        request.setCommandName("msetnx");
+
+        request.setArgs(Arrays.asList("key1", "Hello", "key2", "there"));
+        RespResponse response = mSetNxHandler.handle(request);
+        JunitAssertUtil.number(1, response);
+        assertKeyValueExists("key1", "Hello");
+        assertKeyValueExists("key2", "there");
+
+        request.setArgs(Arrays.asList("key2", "new", "key3", "world"));
+        response = mSetNxHandler.handle(request);
+        JunitAssertUtil.number(0, response);
+        assertKeyValueExists("key1", "Hello");
+        assertKeyValueExists("key2", "there");
+        assertKeyValueExists("key3", "world");
+    }
+
+    @Test
+    public void testGetSet() {
+        put("mykey", "Hello");
+
+        RespRequest request = new RespRequest();
+        request.setCommandName("getset");
+
+        request.setArgs(Arrays.asList("mykey", "World"));
+        RespResponse response = getSetHandler.handle(request);
+        JunitAssertUtil.bulkString("Hello", response);
+        assertKeyValueExists("mykey", "World");
     }
 
 }
