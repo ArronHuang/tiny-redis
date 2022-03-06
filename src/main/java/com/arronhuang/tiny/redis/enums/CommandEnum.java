@@ -7,6 +7,11 @@ import lombok.Getter;
 @Getter
 public enum CommandEnum {
 
+    // commands for common
+    COMMAND(0),
+    PING(0),
+    HELLO(0),
+
     // commands for string
     APPEND(2),
     DECR(1),
