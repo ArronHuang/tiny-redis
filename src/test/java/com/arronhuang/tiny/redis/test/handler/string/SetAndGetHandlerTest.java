@@ -1,10 +1,11 @@
 package com.arronhuang.tiny.redis.test.handler.string;
 
-import com.arronhuang.tiny.redis.handler.ICommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
 import com.arronhuang.tiny.redis.handler.string.*;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.test.util.JunitAssertUtil;
+import com.arronhuang.tiny.redis.test.util.TestUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,25 +14,27 @@ import java.util.List;
 
 public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
-    private ICommandHandler setHandler = new SetHandler();
+    private AbstractCommandHandler setHandler = new SetHandler();
 
-    private ICommandHandler mSetHandler = new MSetHandler();
+    private AbstractCommandHandler mSetHandler = new MSetHandler();
 
-    private ICommandHandler setNxHandler = new SetNxHandler();
+    private AbstractCommandHandler setNxHandler = new SetNxHandler();
 
-    private ICommandHandler getHandler = new GetHandler();
+    private AbstractCommandHandler getHandler = new GetHandler();
 
-    private ICommandHandler mGetHandler = new MGetHandler();
+    private AbstractCommandHandler mGetHandler = new MGetHandler();
 
-    private ICommandHandler setRangeHandler = new SetRangeHandler();
+    private AbstractCommandHandler setRangeHandler = new SetRangeHandler();
 
-    private ICommandHandler subStrHandler = new SubStrHandler();
+    private AbstractCommandHandler subStrHandler = new SubStrHandler();
 
-    private ICommandHandler getRangeHandler = new GetRangeHandler();
+    private AbstractCommandHandler getRangeHandler = new GetRangeHandler();
 
-    private ICommandHandler strLenHandler = new StrLenHandler();
+    private AbstractCommandHandler strLenHandler = new StrLenHandler();
 
-    private ICommandHandler appendHandler = new AppendHandler();
+    private AbstractCommandHandler appendHandler = new AppendHandler();
+
+    private AbstractCommandHandler setExHandler = new SetExHandler();
 
     @Test
     public void testSet() {
@@ -242,6 +245,20 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
         JunitAssertUtil.number(11, response);
 
         assertKeyValueExists("mykey", "Hello World");
+    }
+
+    @Test
+    public void testSetEx() {
+        RespRequest request = new RespRequest();
+        request.setCommandName("setex");
+
+        request.setArgs(Arrays.asList("mykey", "1", "Hello"));
+        RespResponse response = setExHandler.handle(request);
+        JunitAssertUtil.ok(response);
+        assertKeyValueExists("mykey", "Hello");
+
+        TestUtil.sleep(1000);
+        assertKeyNotExists("mykey");
     }
 
 }

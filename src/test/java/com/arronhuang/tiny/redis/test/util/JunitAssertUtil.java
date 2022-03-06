@@ -50,4 +50,8 @@ public class JunitAssertUtil {
         Assertions.assertEquals(response.getArgs().get(0), GlobalConstant.ERROR_PREFIX + errorCodeEnum.getMsg());
     }
 
+    public static void ok(RespResponse response) {
+        Assertions.assertTrue(response.getRespResponseTypeEnum() == RespResponseTypeEnum.SIMPLE_STRING);
+        Assertions.assertEquals(response.getArgs().get(0), GlobalConstant.OK);
+    }
 }
