@@ -35,6 +35,30 @@ public enum CommandEnum {
     SETRANGE(3),
     STRLEN(1),
     SUBSTR(3),
+
+    // commands for list
+    BLMOVE(null),
+    BLMPOP(null),
+    BLPOP(-2),
+    BRPOP(-2),
+    BRPOPLPUSH(3),
+    LINDEX(2),
+    LINSERT(4),
+    LLEN(1),
+    LMOVE(4),
+    LMPOP(-3),
+    LPOP(-1),
+    LPOS(-2),
+    LPUSH(-2),
+    LPUSHX(-2),
+    LRANGE(3),
+    LREM(3),
+    LSET(3),
+    LTRIM(3),
+    RPOP(-1),
+    RPOPLPUSH(2),
+    RPUSH(-2),
+    RPUSHX(-2),
     ;
 
     private Integer argQty;
