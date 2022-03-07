@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static com.arronhuang.tiny.redis.enums.CommandEnum.*;
+
 public class CalcalateHandlerTest extends StringHandlerTestBase {
 
     private AbstractCommandHandler decrHandler = new DecrHandler();
@@ -26,7 +28,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
     public void testDecr() {
         put("mykey", "10");
         RespRequest request = new RespRequest();
-        request.setCommandName("decr");
+        request.setCommandName(DECR.name());
 
         request.setArgs(Arrays.asList("mykey"));
         RespResponse response = decrHandler.handle(request);
@@ -41,7 +43,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
     @Test
     public void testIncr() {
         RespRequest request = new RespRequest();
-        request.setCommandName("incr");
+        request.setCommandName(INCR.name());
 
         request.setArgs(Arrays.asList("mykey"));
         RespResponse response = incrHandler.handle(request);
@@ -62,7 +64,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
     public void testDecrBy() {
         put("mykey", "10");
         RespRequest request = new RespRequest();
-        request.setCommandName("decrby");
+        request.setCommandName(DECRBY.name());
 
         request.setArgs(Arrays.asList("mykey", "3"));
         RespResponse response = decrByHandler.handle(request);
@@ -74,7 +76,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
     public void testIncrBy() {
         put("mykey", "10");
         RespRequest request = new RespRequest();
-        request.setCommandName("incrby");
+        request.setCommandName(INCRBY.name());
 
         request.setArgs(Arrays.asList("mykey", "5"));
         RespResponse response = incrByHandler.handle(request);
@@ -85,7 +87,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
     @Test
     public void testIncrByFloat() {
         RespRequest request = new RespRequest();
-        request.setCommandName("incrbyfloat");
+        request.setCommandName(INCRBYFLOAT.name());
 
         request.setArgs(Arrays.asList("mykey", "10.50"));
         RespResponse response = incrByFloatHandler.handle(request);

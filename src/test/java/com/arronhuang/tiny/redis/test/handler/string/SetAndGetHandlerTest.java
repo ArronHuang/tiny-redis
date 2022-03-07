@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.arronhuang.tiny.redis.enums.CommandEnum.*;
+
 public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
     private AbstractCommandHandler setHandler = new SetHandler();
@@ -45,7 +47,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testSet() {
         RespRequest request = new RespRequest();
-        request.setCommandName("set");
+        request.setCommandName(SET.name());
 
         List<String> args = request.getArgs();
         String key = getRandomString();
@@ -61,7 +63,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testMSet() {
         RespRequest request = new RespRequest();
-        request.setCommandName("mset");
+        request.setCommandName(MSET.name());
 
         List<String> args = request.getArgs();
 
@@ -87,7 +89,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testSetNx() {
         RespRequest request = new RespRequest();
-        request.setCommandName("setnx");
+        request.setCommandName(SETNX.name());
 
         List<String> args = request.getArgs();
         String key = getRandomString();
@@ -115,7 +117,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
         put(key, value);
 
         RespRequest request = new RespRequest();
-        request.setCommandName("get");
+        request.setCommandName(GET.name());
 
         List<String> args = request.getArgs();
         args.add(key);
@@ -130,7 +132,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
         List<String> values = new ArrayList<>();
 
         RespRequest request = new RespRequest();
-        request.setCommandName("mget");
+        request.setCommandName(MGET.name());
 
         for (int i = 0; i < batchSize; i++) {
             String key = getRandomString();
@@ -145,33 +147,24 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     }
 
     @Test
-    public void testSetRange1() {
+    public void testSetRange() {
         put("key1", "hello world");
         RespRequest request = new RespRequest();
-        request.setCommandName("setrange");
+        request.setCommandName(SETRANGE.name());
         request.setArgs(Arrays.asList("key1", "6", "redis"));
         RespResponse response = setRangeHandler.handle(request);
         JunitAssertUtil.number(11, response);
         assertKeyValueExists("key1", "hello redis");
-    }
 
-    @Test
-    public void testSetRange2() {
-        RespRequest request = new RespRequest();
-        request.setCommandName("setrange");
         request.setArgs(Arrays.asList("key2", "6", "redis"));
-        RespResponse response = setRangeHandler.handle(request);
+        response = setRangeHandler.handle(request);
         JunitAssertUtil.number(11, response);
         assertKeyValueExists("key2", "\u0000\u0000\u0000\u0000\u0000\u0000redis");
-    }
 
-    @Test
-    public void testSetRange3() {
-        RespRequest request = new RespRequest();
         put("key3", "hello redis");
-        request.setCommandName("setrange");
+        request.setCommandName(SETRANGE.name());
         request.setArgs(Arrays.asList("key3", "6", "j"));
-        RespResponse response = setRangeHandler.handle(request);
+        response = setRangeHandler.handle(request);
         JunitAssertUtil.number(11, response);
         assertKeyValueExists("key3", "hello jedis");
     }
@@ -180,7 +173,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     public void testSubStr() {
         put("mykey", "this is a string");
         RespRequest request = new RespRequest();
-        request.setCommandName("substr");
+        request.setCommandName(SUBSTR.name());
 
         request.setArgs(Arrays.asList("mykey", "0", "3"));
         RespResponse response = subStrHandler.handle(request);
@@ -203,7 +196,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     public void testGetRange() {
         put("mykey", "this is a string");
         RespRequest request = new RespRequest();
-        request.setCommandName("getrange");
+        request.setCommandName(GETRANGE.name());
 
         request.setArgs(Arrays.asList("mykey", "0", "3"));
         RespResponse response = getRangeHandler.handle(request);
@@ -226,7 +219,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     public void testStrLen() {
         put("mykey", "hello world");
         RespRequest request = new RespRequest();
-        request.setCommandName("strlen");
+        request.setCommandName(STRLEN.name());
 
         request.setArgs(Arrays.asList("mykey"));
         RespResponse response = strLenHandler.handle(request);
@@ -240,7 +233,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testAppend() {
         RespRequest request = new RespRequest();
-        request.setCommandName("append");
+        request.setCommandName(APPEND.name());
 
         request.setArgs(Arrays.asList("mykey", "Hello"));
         RespResponse response = appendHandler.handle(request);
@@ -256,7 +249,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testSetEx() {
         RespRequest request = new RespRequest();
-        request.setCommandName("setex");
+        request.setCommandName(SETEX.name());
 
         request.setArgs(Arrays.asList("mykey", "1", "Hello"));
         RespResponse response = setExHandler.handle(request);
@@ -270,7 +263,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testPSetEx() {
         RespRequest request = new RespRequest();
-        request.setCommandName("psetex");
+        request.setCommandName(PSETEX.name());
 
         request.setArgs(Arrays.asList("mykey", "1000", "Hello"));
         RespResponse response = pSetExHandler.handle(request);
@@ -284,7 +277,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
     @Test
     public void testMSetNx() {
         RespRequest request = new RespRequest();
-        request.setCommandName("msetnx");
+        request.setCommandName(MSETNX.name());
 
         request.setArgs(Arrays.asList("key1", "Hello", "key2", "there"));
         RespResponse response = mSetNxHandler.handle(request);
@@ -305,7 +298,7 @@ public class SetAndGetHandlerTest extends StringHandlerTestBase {
         put("mykey", "Hello");
 
         RespRequest request = new RespRequest();
-        request.setCommandName("getset");
+        request.setCommandName(GETSET.name());
 
         request.setArgs(Arrays.asList("mykey", "World"));
         RespResponse response = getSetHandler.handle(request);
