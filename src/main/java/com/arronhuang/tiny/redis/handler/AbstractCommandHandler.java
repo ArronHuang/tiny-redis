@@ -1,7 +1,6 @@
 package com.arronhuang.tiny.redis.handler;
 
 import com.arronhuang.tiny.redis.enums.CommandEnum;
-import com.arronhuang.tiny.redis.enums.GlobalConstant;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.util.AssertUtil;
@@ -38,7 +37,7 @@ public abstract class AbstractCommandHandler {
             checkArgs(args);
             response = doHandle(args);
         } catch (Exception e) {
-            response = RespResponse.error(GlobalConstant.ERROR_PREFIX + e.getMessage());
+            response = RespResponse.error(e.getMessage());
             log.error("request process error: {}", request.toString(), e);
         }
 

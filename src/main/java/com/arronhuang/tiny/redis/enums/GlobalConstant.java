@@ -11,8 +11,6 @@ public class GlobalConstant {
 
     public static final char ASTERISK = '*';
 
-    public static final String ERROR_PREFIX = "ERR ";
-
     public static final String OK = "OK";
 
     public static final Executor REQUEST_PROCESSOR_EXECUTOR = Executors.newSingleThreadExecutor();
