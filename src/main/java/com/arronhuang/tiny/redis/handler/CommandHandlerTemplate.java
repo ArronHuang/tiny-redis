@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-public abstract class AbstractCommandHandlerTemplate {
+public abstract class CommandHandlerTemplate {
 
     public abstract RespResponse doHandle(List<String> args);
 

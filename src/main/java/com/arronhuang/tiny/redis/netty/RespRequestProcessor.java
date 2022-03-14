@@ -1,6 +1,6 @@
 package com.arronhuang.tiny.redis.netty;
 
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
+import com.arronhuang.tiny.redis.handler.CommandHandlerTemplate;
 import com.arronhuang.tiny.redis.handler.RequestHandlerFactory;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class RespRequestProcessor implements Runnable {
     @Override
     public void run() {
         String commandName = request.getCommandName();
-        AbstractCommandHandlerTemplate handler = RequestHandlerFactory.getHandler(commandName);
+        CommandHandlerTemplate handler = RequestHandlerFactory.getHandler(commandName);
         if (handler == null) {
             log.warn("command is not supported: {}", request.toString());
             ctx.writeAndFlush(RespResponse.error("command is not supported").toByteBuf());
