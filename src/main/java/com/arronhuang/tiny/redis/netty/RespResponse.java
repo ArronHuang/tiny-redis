@@ -8,6 +8,7 @@ import io.netty.buffer.Unpooled;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static cn.hutool.core.text.StrPool.CRLF;
@@ -18,6 +19,15 @@ public class RespResponse {
     private RespResponseTypeEnum respResponseTypeEnum;
 
     private List<Object> args = new ArrayList<>();
+
+    public void addArg(Collection<String> elements) {
+        if (CollUtil.isEmpty(elements)) {
+            return;
+        }
+        for (String element : elements) {
+            args.add(element);
+        }
+    }
 
     public void addArg(Object obj) {
         args.add(obj);
@@ -48,6 +58,13 @@ public class RespResponse {
         RespResponse response = new RespResponse();
         response.setRespResponseTypeEnum(RespResponseTypeEnum.BULK_STRING);
         response.addArg(result);
+        return response;
+    }
+
+    public static RespResponse array(List<String> elements) {
+        RespResponse response = new RespResponse();
+        response.setRespResponseTypeEnum(RespResponseTypeEnum.ARRAY);
+        response.addArg(elements);
         return response;
     }
 

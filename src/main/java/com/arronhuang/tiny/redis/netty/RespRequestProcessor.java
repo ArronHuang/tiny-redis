@@ -17,12 +17,14 @@ public class RespRequestProcessor implements Runnable {
     @Override
     public void run() {
         String commandName = request.getCommandName();
+        log.info("[request] {}", request.toString());
         CommandHandlerTemplate handler = RequestHandlerFactory.getHandler(commandName);
         if (handler == null) {
             log.warn("command is not supported: {}", request.toString());
             ctx.writeAndFlush(RespResponse.error("command is not supported").toByteBuf());
         } else {
             RespResponse response = handler.handle(request);
+            log.info("[response] {}", response.toString());
             ctx.writeAndFlush(response.toByteBuf());
         }
     }

@@ -35,6 +35,10 @@ public final class AssertUtil {
         Assert.isTrue(result, "ERR value is not an integer or out of range");
     }
 
+    public static void isPositiveInteger(int number) {
+        Assert.isTrue(number > 0);
+    }
+
     public static void isFloat(String str) {
         boolean result = true;
         try {
