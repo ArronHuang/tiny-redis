@@ -2,12 +2,12 @@ package com.arronhuang.tiny.redis.handler.common;
 
 import cn.hutool.core.collection.CollUtil;
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 
 import java.util.List;
 
-public class PingHandler extends AbstractCommandHandler {
+public class PingHandler extends AbstractCommandHandlerTemplate {
 
     @Override
     public RespResponse doHandle(List<String> args) {

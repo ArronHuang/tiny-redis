@@ -1,10 +1,10 @@
 package com.arronhuang.tiny.redis.handler.string;
 
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
 import com.arronhuang.tiny.redis.storage.GlobalMap;
 import com.arronhuang.tiny.redis.storage.RedisString;
 
-public abstract class AbstractStringCommandHandler extends AbstractCommandHandler {
+public abstract class AbstractStringCommandHandler extends AbstractCommandHandlerTemplate {
 
     public RedisString get(String key) {
         return GlobalMap.getInstance().getValueByKeyAndType(key, RedisString.class);

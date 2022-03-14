@@ -1,13 +1,13 @@
 package com.arronhuang.tiny.redis.handler.common;
 
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelloHandler extends AbstractCommandHandler {
+public class HelloHandler extends AbstractCommandHandlerTemplate {
 
     private static final String VERSION_3_FLAG = "3";
 

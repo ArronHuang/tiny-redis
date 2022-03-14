@@ -1,7 +1,7 @@
 package com.arronhuang.tiny.redis.test;
 
 import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
 import com.arronhuang.tiny.redis.handler.string.GetDelHandler;
 import com.arronhuang.tiny.redis.handler.string.GetExHandler;
 import com.arronhuang.tiny.redis.handler.string.LcsHandler;
@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 public class UnsupportedOperationTest extends TestBase {
 
-    private AbstractCommandHandler lcsHandler = new LcsHandler();
+    private AbstractCommandHandlerTemplate lcsHandler = new LcsHandler();
 
-    private AbstractCommandHandler getExHandler = new GetExHandler();
+    private AbstractCommandHandlerTemplate getExHandler = new GetExHandler();
 
-    private AbstractCommandHandler getDelHandler = new GetDelHandler();
+    private AbstractCommandHandlerTemplate getDelHandler = new GetDelHandler();
 
     @Test
     public void testUnsupportedOperation() {
@@ -25,7 +25,7 @@ public class UnsupportedOperationTest extends TestBase {
         doTestUnsupportedOperation("getdel", getDelHandler);
     }
 
-    private void doTestUnsupportedOperation(String commandName, AbstractCommandHandler handler) {
+    private void doTestUnsupportedOperation(String commandName, AbstractCommandHandlerTemplate handler) {
         RespRequest request = new RespRequest();
         request.setCommandName(commandName);
         RespResponse response = handler.handle(request);

@@ -10,13 +10,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class RequestHandlerRegistry {
+public class RequestHandlerFactory {
 
-    private static Map</* command name */String, AbstractCommandHandler> registryMap = new HashMap<>();
+    private static Map</* command name */String, AbstractCommandHandlerTemplate> registryMap = new HashMap<>();
 
     private static Map</* command name */String, CommandEnum> commandEnumMap = new HashMap<>();
 
-    public static AbstractCommandHandler getHandler(String commandName) {
+    public static AbstractCommandHandlerTemplate getHandler(String commandName) {
         return registryMap.get(commandName);
     }
 
@@ -36,9 +36,9 @@ public class RequestHandlerRegistry {
             for (Class<?> clazz : classSet) {
                 if ((commandEnum.toString() + "Handler").equalsIgnoreCase(clazz.getSimpleName())) {
                     try {
-                        AbstractCommandHandler commandHandler = (AbstractCommandHandler) clazz.newInstance();
-                        RequestHandlerRegistry.registryMap.put(commandName.toUpperCase(), commandHandler);
-                        RequestHandlerRegistry.commandEnumMap.put(commandName.toUpperCase(), commandEnum);
+                        AbstractCommandHandlerTemplate commandHandler = (AbstractCommandHandlerTemplate) clazz.newInstance();
+                        RequestHandlerFactory.registryMap.put(commandName.toUpperCase(), commandHandler);
+                        RequestHandlerFactory.commandEnumMap.put(commandName.toUpperCase(), commandEnum);
                         log.info("command handler mapping created, commandName = {}, handler = {}", commandName, commandHandler);
                     } catch (Exception e) {
                         log.warn("command handler create failed, commandName = {}", commandName, e);
@@ -47,7 +47,7 @@ public class RequestHandlerRegistry {
             }
         }
 
-        log.info("command handler mapping init finished! size = {}", RequestHandlerRegistry.registryMap.size());
+        log.info("command handler mapping init finished! size = {}", RequestHandlerFactory.registryMap.size());
     }
 
 }

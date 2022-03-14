@@ -1,12 +1,12 @@
 package com.arronhuang.tiny.redis.handler.common;
 
 import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 
 import java.util.List;
 
-public class CommandHandler extends AbstractCommandHandler {
+public class CommandHandler extends AbstractCommandHandlerTemplate {
 
     @Override
     public RespResponse doHandle(List<String> args) {

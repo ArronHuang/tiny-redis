@@ -9,14 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-public abstract class AbstractCommandHandler {
+public abstract class AbstractCommandHandlerTemplate {
 
     public abstract RespResponse doHandle(List<String> args);
 
     public abstract void checkArgs(List<String> args);
 
     protected void checkArgQty(String commandName, List<String> args) {
-        CommandEnum commandEnum = RequestHandlerRegistry.getCommandEnum(commandName);
+        CommandEnum commandEnum = RequestHandlerFactory.getCommandEnum(commandName);
         Integer argQty = commandEnum.getArgQty();
         if (argQty == null) {
             // do nothing
