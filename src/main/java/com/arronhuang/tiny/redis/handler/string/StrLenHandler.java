@@ -9,7 +9,7 @@ public class StrLenHandler extends AbstractStringCommandHandler {
     @Override
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
-        String value = getValue(key, true);
+        String value = getString(key, true);
 
         return RespResponse.number(value.length());
     }

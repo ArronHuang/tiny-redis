@@ -13,7 +13,7 @@ public class SetRangeHandler extends AbstractStringCommandHandler {
         int index = Integer.valueOf(args.get(1));
         String contentToInsert = args.get(2);
 
-        String value = getValue(key, true);
+        String value = getString(key, true);
 
         int valueLength = value.length();
         if (valueLength < index + 1) {

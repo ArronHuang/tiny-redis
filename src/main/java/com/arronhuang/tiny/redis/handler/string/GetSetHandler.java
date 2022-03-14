@@ -9,7 +9,7 @@ public class GetSetHandler extends AbstractStringCommandHandler {
     @Override
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
-        String oldValue = getValue(key, false);
+        String oldValue = getString(key, false);
         String newValue = args.get(1);
 
         set(key, newValue);

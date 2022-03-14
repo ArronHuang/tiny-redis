@@ -14,7 +14,7 @@ public class GetHandler extends AbstractStringCommandHandler {
         RespResponse response = new RespResponse();
         response.setRespResponseTypeEnum(RespResponseTypeEnum.BULK_STRING);
 
-        String value = getValue(key, false);
+        String value = getString(key, false);
         response.addArg(value);
 
         return response;

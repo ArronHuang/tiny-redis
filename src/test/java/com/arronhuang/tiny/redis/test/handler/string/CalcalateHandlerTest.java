@@ -1,7 +1,7 @@
 package com.arronhuang.tiny.redis.test.handler.string;
 
 import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
+import com.arronhuang.tiny.redis.handler.CommandHandlerTemplate;
 import com.arronhuang.tiny.redis.handler.string.*;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
@@ -14,15 +14,15 @@ import static com.arronhuang.tiny.redis.enums.CommandEnum.*;
 
 public class CalcalateHandlerTest extends StringHandlerTestBase {
 
-    private AbstractCommandHandlerTemplate decrHandler = new DecrHandler();
+    private CommandHandlerTemplate decrHandler = new DecrHandler();
 
-    private AbstractCommandHandlerTemplate incrHandler = new IncrHandler();
+    private CommandHandlerTemplate incrHandler = new IncrHandler();
 
-    private AbstractCommandHandlerTemplate decrByHandler = new DecrByHandler();
+    private CommandHandlerTemplate decrByHandler = new DecrByHandler();
 
-    private AbstractCommandHandlerTemplate incrByHandler = new IncrByHandler();
+    private CommandHandlerTemplate incrByHandler = new IncrByHandler();
 
-    private AbstractCommandHandlerTemplate incrByFloatHandler = new IncrByFloatHandler();
+    private CommandHandlerTemplate incrByFloatHandler = new IncrByFloatHandler();
 
     @Test
     public void testDecr() {

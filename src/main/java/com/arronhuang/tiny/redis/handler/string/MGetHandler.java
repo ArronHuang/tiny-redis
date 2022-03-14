@@ -13,7 +13,7 @@ public class MGetHandler extends AbstractStringCommandHandler {
         response.setRespResponseTypeEnum(RespResponseTypeEnum.ARRAY);
 
         for (String key : args) {
-            String value = getValue(key, false);
+            String value = getString(key, false);
             response.addArg(value);
         }
 

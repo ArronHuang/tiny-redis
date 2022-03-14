@@ -12,7 +12,7 @@ public class SubStrHandler extends AbstractStringCommandHandler {
         int fromPosition = Integer.valueOf(args.get(1));
         int toPosition = Integer.valueOf(args.get(2));
 
-        String value = getValue(key, true);
+        String value = getString(key, true);
 
         fromPosition = translatePosition(value.length(), fromPosition);
         toPosition = translatePosition(value.length(), toPosition);

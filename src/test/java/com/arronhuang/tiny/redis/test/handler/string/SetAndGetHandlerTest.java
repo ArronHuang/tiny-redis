@@ -1,6 +1,6 @@
 package com.arronhuang.tiny.redis.test.handler.string;
 
-import com.arronhuang.tiny.redis.handler.AbstractCommandHandlerTemplate;
+import com.arronhuang.tiny.redis.handler.CommandHandlerTemplate;
 import com.arronhuang.tiny.redis.handler.string.*;
 import com.arronhuang.tiny.redis.netty.RespRequest;
 import com.arronhuang.tiny.redis.netty.RespResponse;
@@ -16,33 +16,33 @@ import static com.arronhuang.tiny.redis.enums.CommandEnum.*;
 
 public class SetAndGetHandlerTest extends StringHandlerTestBase {
 
-    private AbstractCommandHandlerTemplate setHandler = new SetHandler();
+    private CommandHandlerTemplate setHandler = new SetHandler();
 
-    private AbstractCommandHandlerTemplate mSetHandler = new MSetHandler();
+    private CommandHandlerTemplate mSetHandler = new MSetHandler();
 
-    private AbstractCommandHandlerTemplate setNxHandler = new SetNxHandler();
+    private CommandHandlerTemplate setNxHandler = new SetNxHandler();
 
-    private AbstractCommandHandlerTemplate getHandler = new GetHandler();
+    private CommandHandlerTemplate getHandler = new GetHandler();
 
-    private AbstractCommandHandlerTemplate mGetHandler = new MGetHandler();
+    private CommandHandlerTemplate mGetHandler = new MGetHandler();
 
-    private AbstractCommandHandlerTemplate setRangeHandler = new SetRangeHandler();
+    private CommandHandlerTemplate setRangeHandler = new SetRangeHandler();
 
-    private AbstractCommandHandlerTemplate subStrHandler = new SubStrHandler();
+    private CommandHandlerTemplate subStrHandler = new SubStrHandler();
 
-    private AbstractCommandHandlerTemplate getRangeHandler = new GetRangeHandler();
+    private CommandHandlerTemplate getRangeHandler = new GetRangeHandler();
 
-    private AbstractCommandHandlerTemplate strLenHandler = new StrLenHandler();
+    private CommandHandlerTemplate strLenHandler = new StrLenHandler();
 
-    private AbstractCommandHandlerTemplate appendHandler = new AppendHandler();
+    private CommandHandlerTemplate appendHandler = new AppendHandler();
 
-    private AbstractCommandHandlerTemplate setExHandler = new SetExHandler();
+    private CommandHandlerTemplate setExHandler = new SetExHandler();
 
-    private AbstractCommandHandlerTemplate pSetExHandler = new PSetExHandler();
+    private CommandHandlerTemplate pSetExHandler = new PSetExHandler();
 
-    private AbstractCommandHandlerTemplate mSetNxHandler = new MSetNxHandler();
+    private CommandHandlerTemplate mSetNxHandler = new MSetNxHandler();
 
-    private AbstractCommandHandlerTemplate getSetHandler = new GetSetHandler();
+    private CommandHandlerTemplate getSetHandler = new GetSetHandler();
 
     @Test
     public void testSet() {

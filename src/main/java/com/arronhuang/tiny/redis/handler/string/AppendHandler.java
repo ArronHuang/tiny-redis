@@ -11,8 +11,8 @@ public class AppendHandler extends AbstractStringCommandHandler {
         String key = args.get(0);
         String appendContent = args.get(1);
 
-        String oldValue = getValue(key, true);
-        String newValue =  oldValue + appendContent;
+        String oldValue = getString(key, true);
+        String newValue = oldValue + appendContent;
         set(key, newValue);
 
         return RespResponse.number(newValue.length());
