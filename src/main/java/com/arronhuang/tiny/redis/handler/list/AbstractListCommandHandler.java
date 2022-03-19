@@ -9,13 +9,13 @@ import java.util.LinkedList;
 public abstract class AbstractListCommandHandler extends CommandHandlerTemplate {
 
     public RedisList get(String key) {
-        return get(key, false);
+        return get(key);
     }
 
-    public RedisList get(String key, boolean createIfNull) {
+    public RedisList getOrCreate(String key) {
         RedisList redisList = GlobalMap.getInstance().getValueByKeyAndType(key, RedisList.class);
 
-        if (redisList == null && createIfNull) {
+        if (redisList == null) {
             redisList = new RedisList();
             GlobalMap.getInstance().put(key, redisList);
         }

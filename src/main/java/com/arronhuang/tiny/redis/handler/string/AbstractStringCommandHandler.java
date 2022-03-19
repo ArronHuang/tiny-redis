@@ -10,6 +10,17 @@ public abstract class AbstractStringCommandHandler extends CommandHandlerTemplat
         return GlobalMap.getInstance().getValueByKeyAndType(key, RedisString.class);
     }
 
+    public RedisString getOrCreate(String key) {
+        RedisString redisString = GlobalMap.getInstance().getValueByKeyAndType(key, RedisString.class);
+
+        if (redisString == null) {
+            redisString = new RedisString();
+            GlobalMap.getInstance().put(key, redisString);
+        }
+
+        return redisString;
+    }
+
     public String getString(String key, boolean returnBlankIfNull) {
         RedisString redisString = get(key);
 
