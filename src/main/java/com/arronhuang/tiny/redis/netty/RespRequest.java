@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -96,4 +97,13 @@ public class RespRequest {
 
         return stringJoiner.toString();
     }
+
+    public void setArgs(List<String> args) {
+        this.args = args;
+    }
+
+    public void setArgs(String... args) {
+        this.args = new ArrayList<>(Arrays.asList(args));
+    }
+
 }

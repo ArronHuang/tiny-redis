@@ -6,6 +6,7 @@ import com.arronhuang.tiny.redis.enums.RespResponseTypeEnum;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import org.junit.jupiter.api.Assertions;
 
+import java.util.Collection;
 import java.util.List;
 
 public class JunitAssertUtil {
@@ -29,6 +30,10 @@ public class JunitAssertUtil {
     }
 
     public static void equals(Object expected, Object actual) {
+        Assertions.assertEquals(expected, actual);
+    }
+
+    public static void equals(Collection expected, Collection actual) {
         Assertions.assertEquals(expected, actual);
     }
 
