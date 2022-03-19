@@ -11,9 +11,7 @@ public class RPopHandler extends AbstractListCommandHandler {
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
         RedisList redisList = getWithoutNull(key);
-
-        String element = redisList.rightPop();
-        return RespResponse.bulkString(element);
+        return RespResponse.bulkString(redisList.rightPop());
     }
 
     @Override

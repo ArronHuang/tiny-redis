@@ -7,13 +7,14 @@ import com.arronhuang.tiny.redis.storage.RedisString;
 public abstract class AbstractStringCommandHandler extends CommandHandlerTemplate {
 
     /**
-     * 根据 key 获取对应的 RedisString, 有可能返回 null
+     * 根据 key 获取对应的 RedisString, 根据 createIfNotExists 决定当 RedisString 维护的值为空时, 是否创建 RedisString 对象
      *
      * @param key
+     * @param createIfNotExists
      * @return
      */
     public RedisString get(String key, boolean createIfNotExists) {
-        RedisString redisString = GlobalMap.getInstance().getValueByKeyAndType(key, RedisString.class);
+        RedisString redisString = GlobalMap.getInstance().get(key, RedisString.class);
 
         if (redisString == null && createIfNotExists) {
             redisString = new RedisString();

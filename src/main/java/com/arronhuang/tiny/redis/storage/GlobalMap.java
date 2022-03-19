@@ -32,7 +32,7 @@ public class GlobalMap extends HashMap<String, RedisObject> {
         return redisObject;
     }
 
-    public <T> T getValueByKeyAndType(String key, Class<T> clazz) {
+    public <T> T get(String key, Class<T> clazz) {
         RedisObject redisObject = get(key);
 
         if (redisObject == null) {

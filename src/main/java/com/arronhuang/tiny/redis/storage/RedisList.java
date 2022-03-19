@@ -2,7 +2,6 @@ package com.arronhuang.tiny.redis.storage;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -40,10 +39,11 @@ public class RedisList extends RedisObject {
      *
      * @param elements 被插入的元素
      */
-    public void leftPush(List<String> elements) {
+    public int leftPush(List<String> elements) {
         for (String element : elements) {
             value.addFirst(element);
         }
+        return size();
     }
 
     /**
@@ -51,10 +51,11 @@ public class RedisList extends RedisObject {
      *
      * @param elements 被插入的元素
      */
-    public void rightPush(List<String> elements) {
+    public int rightPush(List<String> elements) {
         for (String element : elements) {
             value.addLast(element);
         }
+        return size();
     }
 
     /**
