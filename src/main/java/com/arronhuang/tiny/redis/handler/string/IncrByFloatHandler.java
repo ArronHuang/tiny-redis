@@ -12,7 +12,7 @@ public class IncrByFloatHandler extends AbstractStringCommandHandler {
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
         String offset = args.get(1);
-        RedisString redisString = getOrCreate(key);
+        RedisString redisString = get(key, true);
 
         return RespResponse.bulkString(redisString.incrementByFloat(offset));
     }

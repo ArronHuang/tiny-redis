@@ -26,15 +26,6 @@ public class RedisString extends RedisObject {
     }
 
     /**
-     * 对持有的值进行 +1 操作
-     *
-     * @return 操作之后的数值
-     */
-    public long increment() {
-        return increment(1);
-    }
-
-    /**
      * 对持有的值进行累加操作, 累加的值取决于传入的 offset
      *
      * @param offset 增加量
@@ -54,6 +45,12 @@ public class RedisString extends RedisObject {
         return newValue;
     }
 
+    /**
+     * 对持有的值进行累加操作, 累加的值取决于传入的 offset
+     *
+     * @param offset 增加量
+     * @return 操作之后的数值
+     */
     public String incrementByFloat(String offset) {
         BigDecimal oldValue;
         try {

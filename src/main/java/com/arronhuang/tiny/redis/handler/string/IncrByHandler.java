@@ -12,7 +12,7 @@ public class IncrByHandler extends AbstractStringCommandHandler {
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
         long offset = Long.valueOf(args.get(1));
-        RedisString redisString = getOrCreate(key);
+        RedisString redisString = get(key, true);
         return RespResponse.number(redisString.increment(offset));
     }
 

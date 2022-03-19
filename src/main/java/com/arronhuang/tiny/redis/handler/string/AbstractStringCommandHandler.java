@@ -12,20 +12,10 @@ public abstract class AbstractStringCommandHandler extends CommandHandlerTemplat
      * @param key
      * @return
      */
-    public RedisString get(String key) {
-        return GlobalMap.getInstance().getValueByKeyAndType(key, RedisString.class);
-    }
-
-    /**
-     * 根据 key 获取对应的 RedisString, 如果 RedisString 不存在, 则会创建一个空的 RedisString
-     *
-     * @param key
-     * @return
-     */
-    public RedisString getOrCreate(String key) {
+    public RedisString get(String key, boolean createIfNotExists) {
         RedisString redisString = GlobalMap.getInstance().getValueByKeyAndType(key, RedisString.class);
 
-        if (redisString == null) {
+        if (redisString == null && createIfNotExists) {
             redisString = new RedisString();
             GlobalMap.getInstance().put(key, redisString);
         }
@@ -34,17 +24,17 @@ public abstract class AbstractStringCommandHandler extends CommandHandlerTemplat
     }
 
     /**
-     * 根据 key 获取对应的 RedisString 的值， 根据 returnBlankIfNull 决定当 RedisString 维护的值为空时, 返回空字符串还是 null
+     * 根据 key 获取对应的 RedisString 的值， 根据 returnBlankIfNotExists 决定当 RedisString 维护的值为空时, 返回空字符串还是 null
      *
      * @param key
-     * @param returnBlankIfNull
+     * @param returnBlankIfNotExists
      * @return
      */
-    public String getString(String key, boolean returnBlankIfNull) {
-        RedisString redisString = get(key);
+    public String getString(String key, boolean returnBlankIfNotExists) {
+        RedisString redisString = get(key, false);
 
         if (redisString == null) {
-            return returnBlankIfNull ? "" : null;
+            return returnBlankIfNotExists ? "" : null;
         } else {
             return redisString.getValue();
         }
