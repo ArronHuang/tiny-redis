@@ -32,9 +32,9 @@ public class RequestHandlerFactory {
                 .collect(Collectors.toSet());
 
         for (CommandEnum commandEnum : CommandEnum.values()) {
-            String commandName = commandEnum.toString();
+            String commandName = commandEnum.name();
             for (Class<?> clazz : classSet) {
-                if ((commandEnum.toString() + "Handler").equalsIgnoreCase(clazz.getSimpleName())) {
+                if ((commandName + "Handler").equalsIgnoreCase(clazz.getSimpleName())) {
                     try {
                         CommandHandlerTemplate commandHandler = (CommandHandlerTemplate) clazz.newInstance();
                         RequestHandlerFactory.registryMap.put(commandName.toUpperCase(), commandHandler);

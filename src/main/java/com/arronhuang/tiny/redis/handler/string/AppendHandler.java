@@ -13,7 +13,7 @@ public class AppendHandler extends AbstractStringCommandHandler {
 
         String oldValue = getString(key, true);
         String newValue = oldValue + appendContent;
-        set(key, newValue);
+        set(key, newValue, NO_TTL, false);
 
         return RespResponse.number(newValue.length());
     }

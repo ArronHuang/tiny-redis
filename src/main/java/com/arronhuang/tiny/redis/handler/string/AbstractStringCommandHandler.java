@@ -1,10 +1,13 @@
 package com.arronhuang.tiny.redis.handler.string;
 
-import com.arronhuang.tiny.redis.handler.CommandHandlerTemplate;
+import cn.hutool.core.date.DateUtil;
+import com.arronhuang.tiny.redis.handler.AbstractCommandHandler;
 import com.arronhuang.tiny.redis.storage.GlobalMap;
 import com.arronhuang.tiny.redis.storage.RedisString;
 
-public abstract class AbstractStringCommandHandler extends CommandHandlerTemplate {
+import java.util.Date;
+
+public abstract class AbstractStringCommandHandler extends AbstractCommandHandler {
 
     /**
      * 根据 key 获取对应的 RedisString, 根据 createIfNotExists 决定当 RedisString 维护的值为空时, 是否创建 RedisString 对象
@@ -14,14 +17,7 @@ public abstract class AbstractStringCommandHandler extends CommandHandlerTemplat
      * @return
      */
     public RedisString get(String key, boolean createIfNotExists) {
-        RedisString redisString = GlobalMap.getInstance().get(key, RedisString.class);
-
-        if (redisString == null && createIfNotExists) {
-            redisString = new RedisString();
-            GlobalMap.getInstance().put(key, redisString);
-        }
-
-        return redisString;
+        return get(key, createIfNotExists, RedisString.class);
     }
 
     /**
@@ -42,35 +38,26 @@ public abstract class AbstractStringCommandHandler extends CommandHandlerTemplat
     }
 
     /**
-     * 设置一个永久的键值对
-     *
-     * @param key
-     * @param value
-     */
-    public void set(String key, Object value) {
-        GlobalMap.getInstance().put(key, new RedisString(value));
-    }
-
-    /**
      * 设置一个含过期时间的键值对, 传入的过期时间单位为 ms
      *
      * @param key
      * @param value
      * @param ttl
      */
-    public void set(String key, Object value, int ttl) {
-        GlobalMap.getInstance().put(key, new RedisString(value, ttl));
-    }
+    public boolean set(String key, Object value, Long ttl, boolean setIfAbsent) {
+        RedisString redisString = new RedisString();
+        redisString.setValue(String.valueOf(value));
+        if (ttl != null && ttl > 0) {
+            redisString.setExpireTime(DateUtil.offsetMillisecond(new Date(), ttl.intValue()).getTime());
+        }
 
-    /**
-     * 仅当传入的 key 不存在时, 设置一个永久的键值对
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public boolean setIfNotExists(String key, Object value) {
-        return GlobalMap.getInstance().putIfAbsent(key, new RedisString(value)) == null;
+        GlobalMap globalMap = GlobalMap.getInstance();
+        if (setIfAbsent) {
+            return globalMap.putIfAbsent(key, redisString) == null;
+        } else {
+            globalMap.put(key, redisString);
+            return true;
+        }
     }
 
 }

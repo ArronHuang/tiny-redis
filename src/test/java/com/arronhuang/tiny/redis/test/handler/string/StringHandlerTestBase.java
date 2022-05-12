@@ -25,7 +25,9 @@ public class StringHandlerTestBase extends TestBase {
     }
 
     protected void put(String key, String value) {
-        GlobalMap.getInstance().put(key, new RedisString(value));
+        RedisString redisString = new RedisString();
+        redisString.setValue(value);
+        GlobalMap.getInstance().put(key, redisString);
     }
 
 }

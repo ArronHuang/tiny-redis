@@ -31,7 +31,7 @@ public class SetRangeHandler extends AbstractStringCommandHandler {
             value = newValue;
         }
 
-        set(key, value);
+        set(key, value, NO_TTL, false);
         return RespResponse.number(value.length());
     }
 

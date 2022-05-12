@@ -13,7 +13,7 @@ public class MSetHandler extends AbstractStringCommandHandler {
             String key = args.get(i);
             String value = args.get(i + 1);
 
-            set(key, value);
+            set(key, value, NO_TTL, false);
         }
 
         return RespResponse.ok();

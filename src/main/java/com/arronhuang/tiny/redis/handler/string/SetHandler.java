@@ -12,7 +12,7 @@ public class SetHandler extends AbstractStringCommandHandler {
         String value = args.get(1);
 
         // TODO 带参数部分待处理
-        set(key, value);
+        set(key, value, NO_TTL, false);
 
         return RespResponse.ok();
     }

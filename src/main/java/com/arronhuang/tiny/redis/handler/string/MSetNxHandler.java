@@ -15,7 +15,7 @@ public class MSetNxHandler extends AbstractStringCommandHandler {
             String key = args.get(i);
             String value = args.get(i + 1);
 
-            result &= setIfNotExists(key, value);
+            result &= set(key, value, NO_TTL, true);
         }
 
         return RespResponse.number(result ? 1 : 0);

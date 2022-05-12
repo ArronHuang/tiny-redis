@@ -6,7 +6,9 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class RedisObject {
+public class RedisObject<T> {
+
+    protected T value;
 
     protected Long expireTime;
 

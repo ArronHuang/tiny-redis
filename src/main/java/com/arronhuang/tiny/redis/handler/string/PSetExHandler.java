@@ -10,10 +10,10 @@ public class PSetExHandler extends AbstractStringCommandHandler {
     @Override
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
-        int ttl = Integer.valueOf(args.get(1));
+        long ttl = Long.valueOf(args.get(1));
         String value = args.get(2);
 
-        set(key, value, ttl);
+        set(key, value, ttl, false);
 
         return RespResponse.ok();
     }

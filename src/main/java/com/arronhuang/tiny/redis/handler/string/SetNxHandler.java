@@ -11,7 +11,7 @@ public class SetNxHandler extends AbstractStringCommandHandler {
         String key = args.get(0);
         String value = args.get(1);
 
-        boolean result = setIfNotExists(key, value);
+        boolean result = set(key, value, NO_TTL, true);
 
         return RespResponse.number(result ? 1 : 0);
     }

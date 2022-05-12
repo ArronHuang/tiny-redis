@@ -3,85 +3,84 @@ package com.arronhuang.tiny.redis.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static com.arronhuang.tiny.redis.enums.FlagEnum.*;
+
 @AllArgsConstructor
 @Getter
 public enum CommandEnum {
 
+
     // commands for common
-    COMMAND(0, false),
-    PING(0, false),
-    HELLO(0, false),
+    COMMAND(0, new FlagEnum[]{RANDOM, LOADING, STALE}, 0, 0, 0),
+    PING(-1, new FlagEnum[]{STALE, FAST}, 0, 0, 0),
 
     // commands for string
-    APPEND(2, true),
-    DECR(1, true),
-    DECRBY(2, true),
-    GET(1, true),
-    GETDEL(1, true),
-    GETEX(-1, true),
-    GETRANGE(3, true),
-    GETSET(2, true),
-    INCR(1, true),
-    INCRBY(2, true),
-    INCRBYFLOAT(2, true),
-    LCS(-2, true),
-    MGET(-1, true),
-    MSET(-2, true),
-    MSETNX(-2, true),
-    PSETEX(3, true),
-    SET(-2, true),
-    SETEX(3, true),
-    SETNX(2, true),
-    SETRANGE(3, true),
-    STRLEN(1, true),
-    SUBSTR(3, true),
+    APPEND(3, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    DECR(2, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    DECRBY(3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    GET(2, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    GETRANGE(4, new FlagEnum[]{READONLY}, 1, 1, 1),
+    GETSET(3, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    INCR(2, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    INCRBY(3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    INCRBYFLOAT(3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    MGET(-2, new FlagEnum[]{READONLY, FAST}, 1, -1, 1),
+    MSET(-3, new FlagEnum[]{WRITE, DENYOOM}, 1, -1, 2),
+    MSETNX(-3, new FlagEnum[]{WRITE, DENYOOM}, 1, -1, 2),
+    PSETEX(4, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    SET(-3, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    SETEX(4, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    SETNX(3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    SETRANGE(4, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    STRLEN(2, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    SUBSTR(4, new FlagEnum[]{READONLY}, 1, 1, 1),
 
     // commands for list
-    BLMOVE(5, false),
-    BLMPOP(-4, false),
-    BLPOP(-2, true),
-    BRPOP(-2, true),
-    BRPOPLPUSH(3, false),
-    LINDEX(2, true),
-    LINSERT(4, true),
-    LLEN(1, true),
-    LMOVE(4, false),
-    LMPOP(-3, true),
-    LPOP(-1, true),
-    LPOS(-2, true),
-    LPUSH(-2, true),
-    LPUSHX(-2, true),
-    LRANGE(3, true),
-    LREM(3, true),
-    LSET(3, true),
-    LTRIM(3, true),
-    RPOP(-1, true),
-    RPOPLPUSH(2, false),
-    RPUSH(-2, true),
-    RPUSHX(-2, true),
+    BLPOP(-3, new FlagEnum[]{WRITE, NOSCRIPT}, 1, -2, 1),
+    BRPOP(-3, new FlagEnum[]{WRITE, NOSCRIPT}, 1, -2, 1),
+    BRPOPLPUSH(4, new FlagEnum[]{WRITE, DENYOOM, NOSCRIPT}, 1, 2, 1),
+    LINDEX(3, new FlagEnum[]{READONLY}, 1, 1, 1),
+    LINSERT(5, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    LLEN(2, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    LPOP(2, new FlagEnum[]{WRITE, FAST}, 1, 1, 1),
+    LPUSH(-3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    LPUSHX(-3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    LRANGE(4, new FlagEnum[]{READONLY}, 1, 1, 1),
+    LREM(4, new FlagEnum[]{WRITE}, 1, 1, 1),
+    LSET(4, new FlagEnum[]{WRITE, DENYOOM}, 1, 1, 1),
+    LTRIM(4, new FlagEnum[]{WRITE}, 1, 1, 1),
+    RPOP(2, new FlagEnum[]{WRITE, FAST}, 1, 1, 1),
+    RPOPLPUSH(3, new FlagEnum[]{WRITE, DENYOOM}, 1, 2, 1),
+    RPUSH(-3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    RPUSHX(-3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
 
     // commands for hash
-    HDEL(-2, true),
-    HEXISTS(2, true),
-    HGET(2, true),
-    HGETALL(1, true),
-    HINCRBY(3, true),
-    HINCRBYFLOAT(3, true),
-    HKEYS(1, true),
-    HLEN(1, true),
-    HMGET(-2, true),
-    HMSET(-3, true),
-    HRANDFIELD(-1, true),
-    HSCAN(-2, true),
-    HSET(-3, true),
-    HSETNX(3, true),
-    HSTRLEN(2, true),
-    HVALS(1, true),
+    HDEL(-3, new FlagEnum[]{WRITE, FAST}, 1, 1, 1),
+    HEXISTS(3, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    HGET(3, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    HGETALL(2, new FlagEnum[]{READONLY, RANDOM}, 1, 1, 1),
+    HINCRBY(4, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    HINCRBYFLOAT(4, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    HKEYS(2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, 1, 1),
+    HLEN(2, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    HMGET(-3, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    HMSET(-4, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    HSCAN(-3, new FlagEnum[]{READONLY, RANDOM}, 1, 1, 1),
+    HSET(-4, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    HSETNX(4, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    HSTRLEN(3, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    HVALS(2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, 1, 1),
 
     ;
 
-    private int argQty;
+    private int arity;
 
-    private boolean keyFirst;
+    private FlagEnum[] flagEnums;
+
+    private int firstKeyIndex;
+
+    private int lastKeyIndex;
+
+    private int keyStep;
 
 }

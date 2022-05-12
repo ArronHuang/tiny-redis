@@ -12,7 +12,7 @@ public class GetSetHandler extends AbstractStringCommandHandler {
         String oldValue = getString(key, false);
         String newValue = args.get(1);
 
-        set(key, newValue);
+        set(key, newValue, NO_TTL, false);
 
         return RespResponse.bulkString(oldValue);
     }
