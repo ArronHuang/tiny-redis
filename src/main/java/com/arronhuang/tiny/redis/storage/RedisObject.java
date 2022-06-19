@@ -8,8 +8,6 @@ import java.util.Date;
 @Data
 public class RedisObject<T> {
 
-    protected T value;
-
     protected Long expireTime;
 
     public boolean isExpire() {

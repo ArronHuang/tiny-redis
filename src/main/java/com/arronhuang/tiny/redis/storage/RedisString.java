@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 @Data
 public class RedisString extends RedisObject<String> {
 
+    private String value;
+
     public RedisString() {
     }
 
