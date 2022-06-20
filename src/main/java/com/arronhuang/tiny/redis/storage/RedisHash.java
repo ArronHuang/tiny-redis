@@ -1,7 +1,10 @@
 package com.arronhuang.tiny.redis.storage;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
+import com.arronhuang.tiny.redis.handler.RequestProcessException;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +33,33 @@ public class RedisHash extends RedisObject {
 
     public String get(String fieldName) {
         return value.get(fieldName);
+    }
+
+    public int incrementBy(String fieldName, int offset) {
+        String oldHashValue = value.getOrDefault(fieldName, "0");
+
+        try {
+            int newHashValue = Integer.valueOf(oldHashValue) + offset;
+            value.put(fieldName, String.valueOf(newHashValue));
+            return newHashValue;
+        } catch (NumberFormatException e) {
+            throw new RequestProcessException(ErrorCodeEnum.HASH_VALUE_IS_NOT_AN_INTEGER);
+        }
+    }
+
+    public String incrementByFloat(String fieldName, String offset) {
+        BigDecimal oldValue;
+        String oldHashValue = value.getOrDefault(fieldName, "0");
+
+        try {
+            oldValue = this.value == null ? BigDecimal.ZERO : new BigDecimal(oldHashValue);
+        } catch (NumberFormatException e) {
+            throw new RequestProcessException(ErrorCodeEnum.VALUE_IS_NOT_A_VALID_FLOAT);
+        }
+
+        String newValue = oldValue.add(new BigDecimal(offset)).stripTrailingZeros().toPlainString();
+        value.put(fieldName, newValue);
+        return newValue;
     }
 
     public List<String> getAll() {
