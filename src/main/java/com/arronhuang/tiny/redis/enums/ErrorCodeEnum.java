@@ -18,8 +18,8 @@ public enum ErrorCodeEnum {
     VALUE_IS_NOT_AN_INTEGER_OR_OUT_OF_RANGE(ERR, "value is not an integer or out of range"),
     VALUE_IS_NOT_A_VALID_FLOAT(ERR, "value is not a valid float"),
 
-
-    ;
+    // hash error code
+    HASH_VALUE_IS_NOT_AN_INTEGER(ERR, "hash value is not an integer");
 
     private ErrorTypeEnum errorType;
 
