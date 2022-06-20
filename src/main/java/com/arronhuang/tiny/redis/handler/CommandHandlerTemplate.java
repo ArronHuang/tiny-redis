@@ -34,10 +34,11 @@ public abstract class CommandHandlerTemplate {
      */
     protected void checkArgQty(String commandName, List<String> args) {
         CommandEnum commandEnum = RequestHandlerFactory.getCommandEnum(commandName);
-        System.out.println(commandName);
         int argQty = commandEnum.getArity();
-        if (argQty >= 0) {
+        if (argQty > 0) {
             AssertUtil.sizeEquals(args, argQty - 1);
+        } else if (argQty == 0) {
+            AssertUtil.sizeEquals(args, argQty);
         } else {
             AssertUtil.sizeMoreThan(args, argQty * -1 - 1);
         }

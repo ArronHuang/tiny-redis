@@ -20,11 +20,11 @@ public class RespResponse {
 
     private List<Object> args = new ArrayList<>();
 
-    public void addArg(Collection<String> elements) {
+    public void addArg(Collection elements) {
         if (CollUtil.isEmpty(elements)) {
             return;
         }
-        for (String element : elements) {
+        for (Object element : elements) {
             args.add(element);
         }
     }
@@ -61,7 +61,7 @@ public class RespResponse {
         return response;
     }
 
-    public static RespResponse array(List<String> elements) {
+    public static RespResponse array(List elements) {
         RespResponse response = new RespResponse();
         response.setRespResponseTypeEnum(RespResponseTypeEnum.ARRAY);
         response.addArg(elements);
@@ -73,50 +73,63 @@ public class RespResponse {
         List<Object> args = this.getArgs();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(respResponseTypeEnum.getCode());
 
         switch (respResponseTypeEnum) {
             case SIMPLE_STRING:
+                sb.append(RespResponseTypeEnum.SIMPLE_STRING.getCode())
+                        .append(args.get(0))
+                        .append(CRLF);
+                break;
             case NUMBER:
+                sb.append(RespResponseTypeEnum.NUMBER.getCode())
+                        .append(args.get(0))
+                        .append(CRLF);
+                break;
             case ERROR:
-                // response msg or number or error
-                sb.append(args.get(0))
+                sb.append(RespResponseTypeEnum.ERROR.getCode())
+                        .append(args.get(0))
                         .append(CRLF);
                 break;
             case BULK_STRING:
-                if (CollUtil.isNotEmpty(args) && args.get(0) != null) {
-                    String bulkString = String.valueOf(args.get(0));
-                    sb.append(bulkString.length())
-                            .append(CRLF)
-                            .append(bulkString)
-                            .append(CRLF);
-                } else {
-                    sb.append(-1)
-                            .append(CRLF);
-                }
+                String bulkString = String.valueOf(args.get(0));
+                handleBulkString(sb, bulkString);
                 break;
             case ARRAY:
-                int arrayLength = args.size();
-                sb.append(arrayLength)
-                        .append(CRLF);
-                for (int i = 0; i < arrayLength; i++) {
-                    Object arrayItem = args.get(i);
-                    if (arrayItem == null) {
-                        sb.append(RespResponseTypeEnum.BULK_STRING.getCode())
-                                .append(-1)
-                                .append(CRLF);
-                    } else {
-                        String str = String.valueOf(arrayItem);
-                        sb.append(RespResponseTypeEnum.BULK_STRING.getCode())
-                                .append(str.length())
-                                .append(CRLF)
-                                .append(str)
-                                .append(CRLF);
-                    }
-                }
+                handleArray(sb, args);
         }
 
         return Unpooled.copiedBuffer(sb.toString().getBytes());
+    }
+
+    private void handleArray(StringBuilder sb, List items) {
+        sb.append(RespResponseTypeEnum.ARRAY.getCode());
+        int arrayLength = items.size();
+        sb.append(arrayLength)
+                .append(CRLF);
+        for (int i = 0; i < arrayLength; i++) {
+            Object arrayItem = items.get(i);
+            if (arrayItem == null || arrayItem instanceof String) {
+                handleBulkString(sb, (String) arrayItem);
+            } else if (arrayItem instanceof Integer) {
+                sb.append(RespResponseTypeEnum.NUMBER.getCode())
+                        .append(arrayItem)
+                        .append(CRLF);
+            } else if (arrayItem instanceof List) {
+                handleArray(sb, (List) arrayItem);
+            }
+        }
+    }
+
+    private void handleBulkString(StringBuilder sb, String bulkString) {
+        sb.append(RespResponseTypeEnum.BULK_STRING.getCode());
+        if (bulkString == null) {
+            sb.append(-1);
+        } else {
+            sb.append(bulkString.length())
+                    .append(CRLF)
+                    .append(bulkString);
+        }
+        sb.append(CRLF);
     }
 
 }
