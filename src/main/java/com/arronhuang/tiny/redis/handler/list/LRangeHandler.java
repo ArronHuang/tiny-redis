@@ -1,5 +1,6 @@
 package com.arronhuang.tiny.redis.handler.list;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.storage.RedisList;
 import com.arronhuang.tiny.redis.util.AssertUtil;
@@ -29,7 +30,7 @@ public class LRangeHandler extends AbstractListCommandHandler {
 
     @Override
     public void checkArgs(List<String> args) {
-        AssertUtil.isInteger(args.get(1), args.get(2));
+        AssertUtil.isInteger(ErrorCodeEnum.VALUE_IS_NOT_AN_INTEGER_OR_OUT_OF_RANGE, args.get(1), args.get(2));
     }
 
 }

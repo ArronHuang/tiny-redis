@@ -1,7 +1,10 @@
 package com.arronhuang.tiny.redis.util;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
+import com.arronhuang.tiny.redis.handler.RequestProcessException;
 
 import java.util.List;
 
@@ -12,27 +15,34 @@ public final class AssertUtil {
     }
 
     public static void sizeEquals(List args, int exceptSize) {
-        Assert.isTrue(args.size() == exceptSize, "ERR wrong number of arguments for this command");
+        int actualSize = CollUtil.size(args);
+        if (actualSize != exceptSize) {
+            throw new RequestProcessException(ErrorCodeEnum.WRONG_NUMBER_OF_ARGUMENTS_FOR_COMMAND);
+        }
     }
 
     public static void sizeMoreThan(List args, int exceptSize) {
-        Assert.isTrue(args.size() >= exceptSize, "ERR wrong number of arguments for this command");
+        int actualSize = CollUtil.size(args);
+        if (actualSize < exceptSize) {
+            throw new RequestProcessException(ErrorCodeEnum.WRONG_NUMBER_OF_ARGUMENTS_FOR_COMMAND);
+        }
     }
 
     public static void sizeIsEvenNumber(List args) {
-        Assert.isTrue(args.size() % 2 == 0, "ERR wrong number of arguments for this command");
+        int actualSize = CollUtil.size(args);
+        if (actualSize % 2 != 0) {
+            throw new RequestProcessException(ErrorCodeEnum.WRONG_NUMBER_OF_ARGUMENTS_FOR_COMMAND);
+        }
     }
 
-    public static void isInteger(String... strings) {
-        boolean result = true;
+    public static void isInteger(ErrorCodeEnum errorCode, String... strings) {
         try {
             for (String string : strings) {
                 Long.valueOf(string);
             }
         } catch (NumberFormatException e) {
-            result = false;
+            throw new RequestProcessException(errorCode);
         }
-        Assert.isTrue(result, "ERR value is not an integer or out of range");
     }
 
     public static void isPositiveInteger(int number) {
@@ -40,13 +50,11 @@ public final class AssertUtil {
     }
 
     public static void isFloat(String str) {
-        boolean result = true;
         try {
             Double.valueOf(str);
         } catch (NumberFormatException e) {
-            result = false;
+            throw new RequestProcessException(ErrorCodeEnum.VALUE_IS_NOT_A_VALID_FLOAT);
         }
-        Assert.isTrue(result, "ERR value is not a valid float");
     }
 
 }

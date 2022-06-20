@@ -11,6 +11,8 @@ import static com.arronhuang.tiny.redis.enums.ErrorTypeEnum.WRONGTYPE;
 public enum ErrorCodeEnum {
 
     // global error code
+
+    WRONG_NUMBER_OF_ARGUMENTS_FOR_COMMAND(ERR, "wrong number of arguments for command"),
     OPERATION_IS_NOT_SUPPORTED_IN_THIS_VERSION(ERR, "operation is not supported in this version"),
     OPERATION_AGAINST_A_KEY_HOLDING_THE_WRONG_KIND_OF_VALUE(WRONGTYPE, "Operation against a key holding the wrong kind of value"),
 

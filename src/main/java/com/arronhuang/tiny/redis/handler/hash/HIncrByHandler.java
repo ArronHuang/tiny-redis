@@ -1,5 +1,6 @@
 package com.arronhuang.tiny.redis.handler.hash;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
 import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.storage.RedisHash;
 import com.arronhuang.tiny.redis.util.AssertUtil;
@@ -21,7 +22,7 @@ public class HIncrByHandler extends AbstractHashCommandHandler {
 
     @Override
     public void checkArgs(List<String> args) {
-        AssertUtil.isInteger(args.get(2));
+        AssertUtil.isInteger(ErrorCodeEnum.HASH_VALUE_IS_NOT_AN_INTEGER, args.get(2));
     }
 
 }
