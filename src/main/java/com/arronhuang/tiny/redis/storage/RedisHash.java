@@ -16,7 +16,7 @@ public class RedisHash extends RedisObject {
     private Map<String, String> value = new HashMap<>();
 
     /**
-     * 根据传入的字段名
+     * 根据传入的字段名, 移除对应的 k-v 对
      *
      * @param fieldNames
      * @return
@@ -27,14 +27,33 @@ public class RedisHash extends RedisObject {
                 .count();
     }
 
+    /**
+     * 判断传入的字段名在 hash 中是否存在
+     *
+     * @param fieldName
+     * @return
+     */
     public boolean existsField(String fieldName) {
         return value.containsKey(fieldName);
     }
 
+    /**
+     * 根据字段名获取对应的值
+     *
+     * @param fieldName
+     * @return
+     */
     public String get(String fieldName) {
         return value.get(fieldName);
     }
 
+    /**
+     * 根据传入的字段名, 为其值添加具体的整型数值
+     *
+     * @param fieldName
+     * @param offset
+     * @return
+     */
     public int incrementBy(String fieldName, int offset) {
         String oldHashValue = value.getOrDefault(fieldName, "0");
 
@@ -47,6 +66,13 @@ public class RedisHash extends RedisObject {
         }
     }
 
+    /**
+     * 根据传入的字段名, 为其值添加具体的浮点型数值
+     *
+     * @param fieldName
+     * @param offset
+     * @return
+     */
     public String incrementByFloat(String fieldName, String offset) {
         BigDecimal oldValue;
         String oldHashValue = value.getOrDefault(fieldName, "0");
@@ -62,6 +88,11 @@ public class RedisHash extends RedisObject {
         return newValue;
     }
 
+    /**
+     * 获取所有的 k-v 值, 以 k1, v1, k2, v2 的形式返回 list
+     *
+     * @return
+     */
     public List<String> getAll() {
         List<String> entries = new ArrayList<>();
         value.entrySet()
