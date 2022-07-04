@@ -104,4 +104,22 @@ public class RedisHash extends RedisObject {
         return entries;
     }
 
+    /**
+     * 返回所有的字段名
+     *
+     * @return
+     */
+    public List<String> keys() {
+        return new ArrayList<>(value.keySet());
+    }
+
+    /**
+     * 返回 hash 的容量
+     *
+     * @return
+     */
+    public int length() {
+        return value.size();
+    }
+
 }

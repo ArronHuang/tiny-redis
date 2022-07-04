@@ -68,6 +68,10 @@ public class RespResponse {
         return response;
     }
 
+    public static RespResponse emptyArray() {
+        return array(null);
+    }
+
     public ByteBuf toByteBuf() {
         RespResponseTypeEnum respResponseTypeEnum = this.getRespResponseTypeEnum();
         List<Object> args = this.getArgs();

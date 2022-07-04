@@ -5,19 +5,20 @@ import com.arronhuang.tiny.redis.storage.RedisHash;
 
 import java.util.List;
 
-public class HGetAllHandler extends AbstractHashCommandHandler {
+public class HKeysHandler extends AbstractHashCommandHandler {
+
 
     @Override
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
+
         RedisHash redisHash = get(key, false);
 
         if (redisHash == null) {
             return RespResponse.emptyArray();
         }
 
-        List<String> entries = redisHash.getAll();
-        return RespResponse.array(entries);
+        return RespResponse.array(redisHash.keys());
     }
 
     @Override
