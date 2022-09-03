@@ -20,7 +20,7 @@ public class RespResponse {
 
     private List<Object> args = new ArrayList<>();
 
-    public void addArg(Collection elements) {
+    public void addArgs(Collection elements) {
         if (CollUtil.isEmpty(elements)) {
             return;
         }
@@ -64,7 +64,7 @@ public class RespResponse {
     public static RespResponse array(List elements) {
         RespResponse response = new RespResponse();
         response.setRespResponseTypeEnum(RespResponseTypeEnum.ARRAY);
-        response.addArg(elements);
+        response.addArgs(elements);
         return response;
     }
 

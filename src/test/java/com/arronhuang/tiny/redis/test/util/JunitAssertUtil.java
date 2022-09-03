@@ -51,7 +51,7 @@ public class JunitAssertUtil {
     }
 
     public static void error(ErrorCodeEnum errorCodeEnum, RespResponse response) {
-        Assertions.assertTrue(response.getRespResponseTypeEnum() == RespResponseTypeEnum.ERROR);
+        Assertions.assertEquals(response.getRespResponseTypeEnum(), RespResponseTypeEnum.ERROR);
         Assertions.assertEquals(response.getArgs().get(0), errorCodeEnum.toString());
     }
 

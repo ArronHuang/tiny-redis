@@ -2,7 +2,6 @@ package com.arronhuang.tiny.redis.storage;
 
 import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
 import com.arronhuang.tiny.redis.handler.RequestProcessException;
-import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
 public class RedisHash extends RedisObject {
 
     private Map<String, String> value = new HashMap<>();
@@ -23,7 +21,7 @@ public class RedisHash extends RedisObject {
      */
     public int removeFields(List<String> fieldNames) {
         return (int) fieldNames.stream()
-                .filter(fieldName -> value.remove(fieldName) == null)
+                .filter(fieldName -> value.remove(fieldName) != null)
                 .count();
     }
 
@@ -122,4 +120,33 @@ public class RedisHash extends RedisObject {
         return value.size();
     }
 
+    /**
+     * 向 hash 中放入键值对
+     *
+     * @param fieldName
+     * @param fieldValue
+     */
+    public void set(String fieldName, String fieldValue) {
+        value.put(fieldName, fieldValue);
+    }
+
+    /**
+     * 如果给定的键值对不存在，则将其放入 hash 中，并返回 true，否则返回 false
+     *
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     */
+    public boolean setIfAbsent(String fieldName, String fieldValue) {
+        return value.putIfAbsent(fieldName, fieldValue) == null;
+    }
+
+    /**
+     * 返回 hash 持有的键值对中的所有 value
+     *
+     * @return
+     */
+    public List<String> values() {
+        return new ArrayList<>(value.values());
+    }
 }

@@ -5,19 +5,18 @@ import com.arronhuang.tiny.redis.storage.RedisHash;
 
 import java.util.List;
 
-public class HExistsHandler extends AbstractHashCommandHandler {
+public class HValsHandler extends AbstractHashCommandHandler {
 
     @Override
     public RespResponse doHandle(List<String> args) {
         String key = args.get(0);
-        String fieldName = args.get(1);
-        RedisHash redisHash = get(key, false);
 
+        RedisHash redisHash = get(key, false);
         if (redisHash == null) {
-            return RespResponse.number(0);
+            return RespResponse.emptyArray();
         }
 
-        return RespResponse.number(redisHash.existsField(fieldName) ? 1 : 0);
+        return RespResponse.array(redisHash.values());
     }
 
     @Override

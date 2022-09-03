@@ -35,6 +35,13 @@ public final class AssertUtil {
         }
     }
 
+    public static void sizeIsOddNumber(List args) {
+        int actualSize = CollUtil.size(args);
+        if (actualSize % 2 == 0) {
+            throw new RequestProcessException(ErrorCodeEnum.WRONG_NUMBER_OF_ARGUMENTS_FOR_COMMAND);
+        }
+    }
+
     public static void isInteger(ErrorCodeEnum errorCode, String... strings) {
         try {
             for (String string : strings) {

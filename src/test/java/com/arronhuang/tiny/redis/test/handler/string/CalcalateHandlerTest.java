@@ -8,8 +8,6 @@ import com.arronhuang.tiny.redis.netty.RespResponse;
 import com.arronhuang.tiny.redis.test.util.JunitAssertUtil;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static com.arronhuang.tiny.redis.enums.CommandEnum.*;
 
 public class CalcalateHandlerTest extends StringHandlerTestBase {
@@ -30,7 +28,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
         RespRequest request = new RespRequest();
         request.setCommandName(DECR.name());
 
-        request.setArgs(Arrays.asList("mykey"));
+        request.setArgs("mykey");
         RespResponse response = decrHandler.handle(request);
         JunitAssertUtil.number(9, response);
         assertKeyValueExists("mykey", "9");
@@ -45,12 +43,12 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
         RespRequest request = new RespRequest();
         request.setCommandName(INCR.name());
 
-        request.setArgs(Arrays.asList("mykey"));
+        request.setArgs("mykey");
         RespResponse response = incrHandler.handle(request);
         JunitAssertUtil.number(1, response);
         assertKeyValueExists("mykey", "1");
 
-        request.setArgs(Arrays.asList("mykey"));
+        request.setArgs("mykey");
         response = incrHandler.handle(request);
         JunitAssertUtil.number(2, response);
         assertKeyValueExists("mykey", "2");
@@ -66,7 +64,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
         RespRequest request = new RespRequest();
         request.setCommandName(DECRBY.name());
 
-        request.setArgs(Arrays.asList("mykey", "3"));
+        request.setArgs("mykey", "3");
         RespResponse response = decrByHandler.handle(request);
         JunitAssertUtil.number(7, response);
         assertKeyValueExists("mykey", "7");
@@ -78,7 +76,7 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
         RespRequest request = new RespRequest();
         request.setCommandName(INCRBY.name());
 
-        request.setArgs(Arrays.asList("mykey", "5"));
+        request.setArgs("mykey", "5");
         RespResponse response = incrByHandler.handle(request);
         JunitAssertUtil.number(15, response);
         assertKeyValueExists("mykey", "15");
@@ -89,29 +87,29 @@ public class CalcalateHandlerTest extends StringHandlerTestBase {
         RespRequest request = new RespRequest();
         request.setCommandName(INCRBYFLOAT.name());
 
-        request.setArgs(Arrays.asList("mykey", "10.50"));
+        request.setArgs("mykey", "10.50");
         RespResponse response = incrByFloatHandler.handle(request);
         JunitAssertUtil.bulkString("10.5", response);
         assertKeyValueExists("mykey", "10.5");
 
-        request.setArgs(Arrays.asList("mykey", "0.1"));
+        request.setArgs("mykey", "0.1");
         response = incrByFloatHandler.handle(request);
         JunitAssertUtil.bulkString("10.6", response);
         assertKeyValueExists("mykey", "10.6");
 
-        request.setArgs(Arrays.asList("mykey", "-5"));
+        request.setArgs("mykey", "-5");
         response = incrByFloatHandler.handle(request);
         JunitAssertUtil.bulkString("5.6", response);
         assertKeyValueExists("mykey", "5.6");
 
         put("mykey", "5.0e3");
-        request.setArgs(Arrays.asList("mykey", "2.0e2"));
+        request.setArgs("mykey", "2.0e2");
         response = incrByFloatHandler.handle(request);
         JunitAssertUtil.bulkString("5200", response);
         assertKeyValueExists("mykey", "5200");
 
         put("mykey", "abc");
-        request.setArgs(Arrays.asList("mykey", "1"));
+        request.setArgs("mykey", "1");
         response = incrByFloatHandler.handle(request);
         JunitAssertUtil.error(ErrorCodeEnum.VALUE_IS_NOT_A_VALID_FLOAT, response);
     }
