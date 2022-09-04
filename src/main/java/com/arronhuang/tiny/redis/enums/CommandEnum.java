@@ -71,6 +71,22 @@ public enum CommandEnum {
     HSTRLEN(3, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
     HVALS(2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, 1, 1),
 
+    // commands for set
+    SADD(-3, new FlagEnum[]{WRITE, DENYOOM, FAST}, 1, 1, 1),
+    SCARD(2, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    SDIFF(-2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, -1, 1),
+    SDIFFSTORE(-3, new FlagEnum[]{WRITE, DENYOOM}, 1, -1, 1),
+    SINTER(-2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, -1, 1),
+    SINTERSTORE(-3, new FlagEnum[]{WRITE, DENYOOM}, 1, -1, 1),
+    SISMEMBER(3, new FlagEnum[]{READONLY, FAST}, 1, 1, 1),
+    SMEMBERS(2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, 1, 1),
+    SMOVE(4, new FlagEnum[]{WRITE, FAST}, 1, 2, 1),
+    SPOP(-2, new FlagEnum[]{WRITE, RANDOM, FAST}, 1, 1, 1),
+    SRANDMEMBER(-2, new FlagEnum[]{READONLY, RANDOM}, 1, 1, 1),
+    SREM(-3, new FlagEnum[]{WRITE, FAST}, 1, 1, 1),
+    SSCAN(-3, new FlagEnum[]{READONLY, RANDOM}, 1, 1, 1),
+    SUNION(-2, new FlagEnum[]{READONLY, SORT_FOR_SCRIPT}, 1, -1, 1),
+    SUNIONSTORE(-3, new FlagEnum[]{WRITE, DENYOOM}, 1, -1, 1),
     ;
 
     private int arity;

@@ -61,7 +61,7 @@ public class RespResponse {
         return response;
     }
 
-    public static RespResponse array(List elements) {
+    public static RespResponse array(Collection elements) {
         RespResponse response = new RespResponse();
         response.setRespResponseTypeEnum(RespResponseTypeEnum.ARRAY);
         response.addArgs(elements);

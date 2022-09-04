@@ -56,6 +56,13 @@ public final class AssertUtil {
         Assert.isTrue(number > 0);
     }
 
+    public static void isPositiveInteger(String numberStr) {
+        Integer number = Integer.valueOf(numberStr);
+        if (number <= 0) {
+            throw new RequestProcessException(ErrorCodeEnum.VALUE_IS_NOT_AN_INTEGER_OR_OUT_OF_RANGE);
+        }
+    }
+
     public static void isFloat(String str) {
         try {
             Double.valueOf(str);
@@ -64,4 +71,11 @@ public final class AssertUtil {
         }
     }
 
+    public static void isTrue(ErrorCodeEnum errorCode, boolean... conditions) {
+        for (boolean condition : conditions) {
+            if (!condition) {
+                throw new RequestProcessException(errorCode);
+            }
+        }
+    }
 }

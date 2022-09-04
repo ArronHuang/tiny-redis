@@ -1,5 +1,6 @@
 package com.arronhuang.tiny.redis.test.handler.hash;
 
+import com.arronhuang.tiny.redis.enums.ErrorCodeEnum;
 import com.arronhuang.tiny.redis.handler.CommandHandlerTemplate;
 import com.arronhuang.tiny.redis.handler.hash.*;
 import com.arronhuang.tiny.redis.netty.RespRequest;
@@ -241,7 +242,6 @@ public class HashHandlerTest extends HashHandlerTestBase {
         RespResponse response = hMGetHandler.handle(request);
         JunitAssertUtil.array(Arrays.asList("hello", "world", null), response);
 
-        request.setCommandName(HMGET.name());
         request.setArgs("myhash1", "nofield1", "nofield2");
         response = hMGetHandler.handle(request);
         JunitAssertUtil.array(Arrays.asList(null, null), response);
@@ -294,6 +294,21 @@ public class HashHandlerTest extends HashHandlerTestBase {
         request.setArgs("myhash1");
         response = hValsHandler.handle(request);
         JunitAssertUtil.array(Arrays.asList(), response);
+    }
+
+    @Test
+    void testException() {
+        put("myhash", "field", "bbb");
+        RespRequest request = new RespRequest();
+        request.setCommandName(HINCRBY.name());
+        request.setArgs("myhash", "field", "111");
+        RespResponse response = hIncrByHandler.handle(request);
+        JunitAssertUtil.error(ErrorCodeEnum.HASH_VALUE_IS_NOT_AN_INTEGER, response);
+
+        request.setCommandName(HINCRBYFLOAT.name());
+        request.setArgs("myhash", "field", "111");
+        response = hIncrByFloatHandler.handle(request);
+        JunitAssertUtil.error(ErrorCodeEnum.VALUE_IS_NOT_A_VALID_FLOAT, response);
     }
 
 }
